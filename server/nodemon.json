@@ -1,0 +1,10 @@
+{
+    "watch": [
+        "src"
+    ],
+    "ext": "ts,json",
+    "ignore": [
+        "dist"
+    ],
+    "exec": "npm run build && npm run start"
+}
