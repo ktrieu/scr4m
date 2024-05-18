@@ -5,7 +5,7 @@ const fastify = Fastify({
 })
 
 fastify.get("/", (request, reply) => {
-    reply.send("yeah that's great?")
+    reply.send("yeah that's great")
 });
 
-fastify.listen({ port: 6001 })
+fastify.listen({ port: +(process.env.PORT ?? 3000), host: '0.0.0.0' })
