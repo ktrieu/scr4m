@@ -20,3 +20,7 @@ services:
       - ./client/src:/app/src:ro
       - ./client/index.html:/app/index.html:ro
       - ./client/public:/app/public:ro
+  proxy:
+    container_name: proxy-dev
+    build:
+      target: dev

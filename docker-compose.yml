@@ -2,7 +2,10 @@ services:
   server:
     build:
       context: ./server
-    ports:
-      - "${BACKEND_PORT}:3000"
     environment:
       - PORT=3000
+  proxy:
+    build:
+      context: ./proxy
+    ports:
+      - "${STACK_PORT}:80"
