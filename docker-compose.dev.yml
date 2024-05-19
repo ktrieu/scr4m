@@ -7,13 +7,11 @@ services:
       - ./server/src:/app/src:ro
   # We only need a front-end container in dev - in production we'll
   # build into a static bundle.
-  frontend:
-    container_name: frontend-dev
+  client:
+    container_name: client-dev
     build:
       context: ./client
       target: dev
-    ports:
-      - ${FRONTEND_PORT}:3000
     environment:
       - VITE_PORT=3000
     volumes:
