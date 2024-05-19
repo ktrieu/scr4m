@@ -1,0 +1,9 @@
+services:
+  server:
+    container_name: server-prod
+    build:
+      target: prod
+  proxy:
+    container_name: proxy-prod
+    build:
+      target: prod

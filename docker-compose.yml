@@ -1,11 +1,13 @@
 services:
   server:
     build:
-      context: ./server
+      context: ./
+      dockerfile: ./server/Dockerfile
     environment:
       - PORT=3000
   proxy:
     build:
-      context: ./proxy
+      context: ./
+      dockerfile: ./proxy/Dockerfile
     ports:
       - "${STACK_PORT}:80"

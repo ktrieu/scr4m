@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    
+    location / {
+        root /var/www/html/client;
+        index index.html;
+    }
+
+    location /api {
+        proxy_pass http://server:3000/;
+    }
+}

@@ -2,14 +2,14 @@ FROM node:21.7.3 as base
 
 WORKDIR /app
 
-COPY package.json ./
-COPY package-lock.json ./
-COPY tsconfig.json ./
-COPY tsconfig.node.json ./
-COPY vite.config.ts ./
-COPY src/ ./src
-COPY index.html ./
-COPY public/ ./
+COPY ./client/package.json ./package.json
+COPY ./client/package-lock.json ./package-lock.json
+COPY ./client/tsconfig.json ./tsconfig.json
+COPY ./client/tsconfig.node.json ./tsconfig.node.json
+COPY ./client/vite.config.ts ./vite.config.ts
+COPY ./client/src/ ./src
+COPY ./client/index.html ./index.html
+COPY ./client/public/ ./public/
 
 RUN npm ci
 
