@@ -1,4 +1,4 @@
-FROM node:21.7.3 as base
+FROM node:21.7.3-alpine as base
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY ./server/src/ ./src/
 RUN npm ci
 RUN npm run build
 
-FROM node:21.7.3 as built
+FROM node:21.7.3-alpine as built
 COPY --from=base /app/dist/ ./dist/
 COPY --from=base /app/node_modules/ ./node_modules/
 COPY --from=base /app/package.json ./package.json
@@ -19,5 +19,5 @@ FROM built as prod
 ENTRYPOINT [ "npm", "run", "start" ]
 
 FROM base as dev
-COPY nodemon.json ./nodemon.json
+COPY ./server/nodemon.json ./nodemon.json
 ENTRYPOINT [ "npm", "run", "dev" ]

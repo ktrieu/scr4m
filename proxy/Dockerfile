@@ -3,7 +3,7 @@ FROM nginx:1.26.0 as base
 FROM base AS dev
 COPY ./proxy/nginx.dev.template ./etc/nginx/templates/default.conf.template
 
-FROM node:21.7.3 as node-builder
+FROM node:21.7.3-alpine as node-builder
 
 COPY ../client/package.json ./
 COPY ../client/package-lock.json ./
