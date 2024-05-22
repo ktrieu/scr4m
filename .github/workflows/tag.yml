@@ -1,0 +1,31 @@
+name: Build production
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: "actions/checkout@v3"
+      - name: Login to Gitlab Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: registry.gitlab.com
+          username: ${{ vars.GITLAB_REGISTRY_EMAIL }}
+          password: ${{ secrets.GITLAB_REGISTRY_TOKEN }}
+      - name: Build Docker images
+        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+        env:
+          IMAGE_VERSION: ${{ github.ref_name }}
+      - name: Push Docker images
+        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml push
+        env:
+            IMAGE_VERSION: ${{ github.ref_name }}
