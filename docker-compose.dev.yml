@@ -23,3 +23,5 @@ services:
     container_name: proxy-dev
     build:
       target: dev
+    ports:
+      - "${STACK_PORT}:80"

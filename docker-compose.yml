@@ -9,5 +9,3 @@ services:
     build:
       context: ./
       dockerfile: ./proxy/Dockerfile
-    ports:
-      - "${STACK_PORT}:80"
