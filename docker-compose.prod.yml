@@ -1,9 +1,11 @@
 services:
   server:
+    image: registry.gitlab.com/ugo-ii/scr4m/server:${IMAGE_VERSION}
     container_name: server-prod
     build:
       target: prod
   proxy:
+    image: registry.gitlab.com/ugo-ii/scr4m/proxy:${IMAGE_VERSION}
     container_name: proxy-prod
     build:
       target: prod
