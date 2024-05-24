@@ -5,6 +5,11 @@ services:
       dockerfile: ./server/Dockerfile
     environment:
       - PORT=3000
+      - DATABASE_HOST=${PSQL_HOST}
+      - DATABASE_USER=${PSQL_USERNAME}
+      - DATABASE_PASSWORD=${PSQL_PASSWORD}
+      - DATABASE_NAME=${PSQL_DB}
+      - DATABASE_PORT=${PSQL_PORT}
   proxy:
     build:
       context: ./
