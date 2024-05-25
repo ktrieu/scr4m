@@ -1,7 +1,9 @@
+import { GoogleLogin } from "./components/GoogleLogin"
+
 function App() {
   return (
     <>
-      <div>AAAH</div>
+      <GoogleLogin />
     </>
   )
 }
