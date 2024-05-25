@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import { Helmet } from "react-helmet-async"
 
 declare global {
@@ -11,14 +11,12 @@ type GoogleLoginProps = {
 
 }
 
-export const GoogleLogin = (props: GoogleLoginProps) => {
+export const GoogleLogin = (_props: GoogleLoginProps) => {
     useEffect(() => {
         window.onGoogleLogin = (token) => {
             console.log(token)
         }
     }, [])
-
-    console.log(import.meta.env)
 
     return <>
         <Helmet>
