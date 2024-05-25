@@ -5,6 +5,9 @@ COPY ./proxy/nginx.dev.template ./etc/nginx/templates/default.conf.template
 
 FROM node:21.7.3-alpine as node-builder
 
+ARG VITE_GOOGLE_CLIENT_ID
+ENV VITE_GOOGLE_CLIENT_ID $VITE_GOOGLE_CLIENT_ID
+
 COPY ../client/package.json ./
 COPY ../client/package-lock.json ./
 COPY ../client/tsconfig.json ./
