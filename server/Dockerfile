@@ -16,6 +16,7 @@ COPY --from=base /app/node_modules/ ./node_modules/
 COPY --from=base /app/package.json ./package.json
 
 FROM built as prod
+COPY ./server/do-db-cert.crt ./do-db-cert.crt
 CMD [ "npm", "run", "start" ]
 
 FROM base as dev

@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { Pool } from 'pg'
-import { promises as fs } from 'fs'
+import { promises as fs, readFileSync } from 'fs'
 import {
     Kysely,
     Migrator,
@@ -19,7 +19,9 @@ async function migrateToLatest() {
                 user: ENV_CONFIG.DATABASE_USER,
                 password: ENV_CONFIG.DATABASE_PASSWORD,
                 database: ENV_CONFIG.DATABASE_NAME,
-                ssl: true,
+                ssl: {
+                    ca: readFileSync('../do-db-cert.crt').toString(),
+                },
                 port: ENV_CONFIG.DATABASE_PORT,
             }),
         }),
