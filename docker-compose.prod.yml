@@ -12,4 +12,6 @@ services:
       args:
         - VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}
     ports:
-      - 80:80
+      - 443:443
+    volumes:
+      - /etc/letsencrypt/live:/cert:ro
