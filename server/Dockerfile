@@ -16,8 +16,8 @@ COPY --from=base /app/node_modules/ ./node_modules/
 COPY --from=base /app/package.json ./package.json
 
 FROM built as prod
-ENTRYPOINT [ "npm", "run", "start" ]
+CMD [ "npm", "run", "start" ]
 
 FROM base as dev
 COPY ./server/nodemon.json ./nodemon.json
-ENTRYPOINT [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "dev" ]

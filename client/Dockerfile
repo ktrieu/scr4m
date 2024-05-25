@@ -14,4 +14,4 @@ COPY ./client/public/ ./public/
 RUN npm ci
 
 FROM base as dev
-ENTRYPOINT [ "npm", "run", "dev", "--", "--host" ]
+CMD [ "npm", "run", "dev", "--", "--host" ]
