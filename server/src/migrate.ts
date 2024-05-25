@@ -19,6 +19,7 @@ async function migrateToLatest() {
                 user: ENV_CONFIG.DATABASE_USER,
                 password: ENV_CONFIG.DATABASE_PASSWORD,
                 database: ENV_CONFIG.DATABASE_NAME,
+                ssl: true,
                 port: ENV_CONFIG.DATABASE_PORT,
             }),
         }),
