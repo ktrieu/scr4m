@@ -25,6 +25,7 @@ jobs:
         run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
         env:
           IMAGE_VERSION: ${{ github.ref_name }}
+          VITE_GOOGLE_CLIENT_ID: ${{ vars.VITE_GOOGLE_CLIENT_ID }}
       - name: Push Docker images
         run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml push
         env:
