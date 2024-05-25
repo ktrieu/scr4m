@@ -1,0 +1,28 @@
+#! /bin/bash
+
+TAG=$1
+
+function compose_prod () {
+    env IMAGE_VERSION=$TAG docker compose --env-file=./env.production -f ../docker-compose.yml -f ../docker-compose.prod.yml $@
+}
+
+if [ -z "$TAG" ]; then
+    echo "No version provided."
+    exit 1
+fi
+
+docker context use scr4m-prod
+
+echo "Pulling containers..."
+compose_prod pull
+
+echo "Running migrations..."
+compose_prod run server npm run migrate
+
+echo "Stopping existing services..."
+compose_prod down
+
+echo "Starting containers..."
+compose_prod up --detach
+
+docker context use default
