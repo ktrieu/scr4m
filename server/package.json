@@ -10,11 +10,15 @@
     "start": "node dist/index.js"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "^0.44.0",
     "@types/node": "^20.12.12",
+    "kanel": "^3.8.9",
+    "kanel-kysely": "^0.4.0",
     "nodemon": "^3.1.0",
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "fastify": "^4.27.0"
+    "fastify": "^4.27.0",
+    "kysely": "^0.27.3"
   }
 }
