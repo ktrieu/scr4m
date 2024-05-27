@@ -4,6 +4,8 @@ services:
     container_name: server-prod
     build:
       target: prod
+    environment:
+      - DATABASE_USE_SSL=true
   proxy:
     image: registry.gitlab.com/ugo-ii/scr4m/proxy:${IMAGE_VERSION}
     container_name: proxy-prod

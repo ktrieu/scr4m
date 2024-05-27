@@ -5,6 +5,8 @@ services:
       target: dev
     volumes:
       - ./server/src:/app/src:ro
+    environment:
+      - DATABASE_USE_SSL=false
   # We only need a front-end container in dev - in production we'll
   # build into a static bundle.
   client:

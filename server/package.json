@@ -21,7 +21,10 @@
   },
   "dependencies": {
     "fastify": "^4.27.0",
+    "fastify-plugin": "^4.5.1",
+    "fastify-type-provider-zod": "^1.2.0",
     "kysely": "^0.27.3",
-    "pg": "^8.11.5"
+    "pg": "^8.11.5",
+    "zod": "^3.23.8"
   }
 }

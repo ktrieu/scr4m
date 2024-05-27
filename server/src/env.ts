@@ -4,6 +4,7 @@ type Config = {
     DATABASE_PASSWORD: string
     DATABASE_NAME: string
     DATABASE_PORT: number
+    DATABASE_USE_SSL: boolean
     PORT: number
 }
 
@@ -29,11 +30,25 @@ const requiredNumber = (key: string) => {
     return numValue;
 }
 
+const requiredBool = (key: string) => {
+    const value = requiredString(key);
+
+    switch (value) {
+        case 'true':
+            return true;
+        case 'false':
+            return false;
+        default:
+            throw new Error(`Environment variable ${key} was not a valid boolean!`)
+    }
+}
+
 export const ENV_CONFIG: Config = {
     DATABASE_HOST: requiredString("DATABASE_HOST"),
     DATABASE_USER: requiredString("DATABASE_USER"),
     DATABASE_PASSWORD: requiredString("DATABASE_PASSWORD"),
     DATABASE_NAME: requiredString("DATABASE_NAME"),
     DATABASE_PORT: requiredNumber("DATABASE_PORT"),
+    DATABASE_USE_SSL: requiredBool("DATABASE_USE_SSL"),
     PORT: requiredNumber("PORT"),
 }
