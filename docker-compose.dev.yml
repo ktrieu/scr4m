@@ -13,7 +13,7 @@ services:
     container_name: client-dev
     build:
       context: ./
-      dockerfile: ./client/Dockerfile
+      dockerfile: ./apps/client/Dockerfile
       target: dev
     environment:
       - VITE_PORT=3000
