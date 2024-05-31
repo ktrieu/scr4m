@@ -2,7 +2,7 @@ services:
   server:
     build:
       context: ./
-      dockerfile: ./server/Dockerfile
+      dockerfile: ./Dockerfile
     environment:
       - PORT=3000
       - DATABASE_HOST=${PSQL_HOST}

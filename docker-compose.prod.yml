@@ -3,7 +3,7 @@ services:
     image: registry.gitlab.com/ugo-ii/scr4m/server:${IMAGE_VERSION}
     container_name: server-prod
     build:
-      target: prod
+      target: server-prod
     environment:
       - DATABASE_USE_SSL=true
   proxy:
