@@ -4,7 +4,7 @@ services:
     build:
       target: server-dev
     volumes:
-      - ./apps/server:/app/apps/server
+      - ./server:/app/server
     environment:
       - DATABASE_USE_SSL=false
   # We only need a front-end container in dev - in production we'll
@@ -19,7 +19,7 @@ services:
       - VITE_PORT=3000
       - VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}
     volumes:
-      - ./apps/client/:/app/apps/client
+      - ./client/:/app/client
   proxy:
     container_name: proxy-dev
     build:

@@ -8,7 +8,7 @@ importers:
 
   .: {}
 
-  apps/client:
+  client:
     dependencies:
       i:
         specifier: ^0.3.7
@@ -60,7 +60,7 @@ importers:
         specifier: ^5.2.0
         version: 5.2.11(@types/node@20.12.12)
 
-  apps/server:
+  server:
     dependencies:
       fastify:
         specifier: ^4.27.0
