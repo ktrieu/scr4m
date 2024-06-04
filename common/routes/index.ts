@@ -1,1 +1,1 @@
-export * as register from './register';
+export * from './register';

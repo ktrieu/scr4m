@@ -3,13 +3,9 @@ import { ENV_CONFIG } from "./env";
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { kyselyPlugin } from "./kysely-plugin";
 
-import { RegisterBodySchema } from "@scr4m/common/routes/register";
-
 const fastify = Fastify({
     logger: true
 })
-
-RegisterBodySchema.parse({});
 
 fastify.setValidatorCompiler(validatorCompiler);
 fastify.setSerializerCompiler(serializerCompiler)

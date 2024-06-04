@@ -10,6 +10,9 @@ importers:
 
   client:
     dependencies:
+      '@scr4m/common':
+        specifier: workspace:*
+        version: link:../common
       i:
         specifier: ^0.3.7
         version: 0.3.7
