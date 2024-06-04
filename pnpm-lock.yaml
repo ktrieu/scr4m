@@ -60,8 +60,21 @@ importers:
         specifier: ^5.2.0
         version: 5.2.11(@types/node@20.12.12)
 
+  common:
+    dependencies:
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
+    devDependencies:
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+
   server:
     dependencies:
+      '@scr4m/common':
+        specifier: workspace:*
+        version: link:../common
       fastify:
         specifier: ^4.27.0
         version: 4.27.0

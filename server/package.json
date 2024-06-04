@@ -25,6 +25,7 @@
     "fastify-type-provider-zod": "^1.2.0",
     "kysely": "^0.27.3",
     "pg": "^8.11.5",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@scr4m/common": "workspace:*"
   }
 }
