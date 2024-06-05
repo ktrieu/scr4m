@@ -11,6 +11,9 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     server: {
       port,
-    }
+    },
+    optimizeDeps: {
+      include: ["@scr4m/common"]
+    },
   }
 })
