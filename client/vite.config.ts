@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
       port,
     },
     optimizeDeps: {
-      include: ["@scr4m/common"]
+      exclude: ["@scr4m/common"]
     },
   }
 })
