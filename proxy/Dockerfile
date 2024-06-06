@@ -15,8 +15,8 @@ ARG VITE_GOOGLE_CLIENT_ID
 ENV VITE_GOOGLE_CLIENT_ID $VITE_GOOGLE_CLIENT_ID
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm --filter client build
+RUN pnpm --filter client... build
 
 FROM base as prod
-COPY --from=node-builder /app/apps/client/dist/ /var/www/html/client
+COPY --from=node-builder /app/client/dist/ /var/www/html/client
 COPY ./proxy/nginx.prod.template ./etc/nginx/templates/default.conf.template
