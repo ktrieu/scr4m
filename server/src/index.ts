@@ -1,8 +1,8 @@
 import Fastify from "fastify";
-import { ENV_CONFIG } from "./env";
+import { ENV_CONFIG } from "./env.js";
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
-import { kyselyPlugin } from "./kysely-plugin";
-import { realpathSync } from "fs";
+import { kyselyPlugin } from "./kysely-plugin.js";
+import { RegisterBodySchema } from "@scr4m/common";
 
 const fastify = Fastify({
     logger: true

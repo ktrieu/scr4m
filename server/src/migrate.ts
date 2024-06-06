@@ -7,7 +7,7 @@ import {
     PostgresDialect,
     FileMigrationProvider,
 } from 'kysely'
-import { createPostgresDialect } from './db'
+import { createPostgresDialect } from './db/index.js'
 
 // This is in JS so we can migrate in production without needing a TS compiler.
 

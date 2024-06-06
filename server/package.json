@@ -1,9 +1,10 @@
 {
-  "name": "server",
+  "name": "@scr4m/server",
   "version": "1.0.0",
   "description": "",
   "author": "",
   "license": "ISC",
+  "type": "module",
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
@@ -25,6 +26,7 @@
     "fastify-type-provider-zod": "^1.2.0",
     "kysely": "^0.27.3",
     "pg": "^8.11.5",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@scr4m/common": "workspace:*"
   }
 }
