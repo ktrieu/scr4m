@@ -9,8 +9,6 @@ import {
 } from 'kysely'
 import { createPostgresDialect } from './db/index.js'
 
-// This is in JS so we can migrate in production without needing a TS compiler.
-
 async function migrateToLatest() {
     const db = new Kysely<unknown>({
         dialect: createPostgresDialect()
@@ -22,7 +20,7 @@ async function migrateToLatest() {
             fs,
             path,
             // This needs to be an absolute path.
-            migrationFolder: path.join(__dirname, '/migrations'),
+            migrationFolder: path.join(import.meta.dirname, '/migrations'),
         }),
     })
 
