@@ -13,6 +13,8 @@ fastify.setSerializerCompiler(serializerCompiler)
 
 const app = fastify.withTypeProvider<ZodTypeProvider>().register(kyselyPlugin);
 
+RegisterBodySchema.parse({ token: '' })
+
 export type FastifyApp = typeof app;
 
 app.get("/", async (request, reply) => {
