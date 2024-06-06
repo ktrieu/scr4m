@@ -14,7 +14,7 @@ CMD ["pnpm", "--parallel", "--filter", "server...", "run", "dev"]
 
 FROM base as built
 RUN pnpm -r build
-RUN pnpm --filter server... deploy /prod/server
+RUN pnpm --filter server deploy /prod/server
 
 FROM base as server-prod
 COPY --from=built /prod/server /prod/server
