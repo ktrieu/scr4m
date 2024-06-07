@@ -6,6 +6,7 @@ function App() {
   RegisterBodySchema.parse({ token: '' })
   return (
     <>
+      <p className="text-xl">HELLO</p>
       <GoogleLogin />
     </>
   )
