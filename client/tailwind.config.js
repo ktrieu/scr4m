@@ -5,7 +5,20 @@ export default {
     "./src/**/*.{ts,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Lexend", {
+          fontVariationSettings: '"wght" 500'
+        }],
+        serif: ["Lexend", {
+          fontVariationSettings: '"wght" 400'
+        }],
+      },
+      colors: {
+        primary: "rgb(2, 122, 14)",
+        secondary: "#E9E3B4",
+      },
+    },
   },
   plugins: [],
 }
