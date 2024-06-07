@@ -2,7 +2,6 @@ import Fastify from "fastify";
 import { ENV_CONFIG } from "./env.js";
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { kyselyPlugin } from "./kysely-plugin.js";
-import { RegisterBodySchema } from "@scr4m/common";
 
 const fastify = Fastify({
     logger: true
@@ -12,8 +11,6 @@ fastify.setValidatorCompiler(validatorCompiler);
 fastify.setSerializerCompiler(serializerCompiler)
 
 const app = fastify.withTypeProvider<ZodTypeProvider>().register(kyselyPlugin);
-
-RegisterBodySchema.parse({ token: '' })
 
 export type FastifyApp = typeof app;
 
