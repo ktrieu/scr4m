@@ -33,7 +33,7 @@ export const GoogleLogin = (_props: GoogleLoginProps) => {
         <div className="g_id_signin"
             data-type="standard"
             data-shape="rectangular"
-            data-theme="filled_blue"
+            data-theme="filled_black"
             data-text="signin_with"
             data-size="large"
             data-logo_alignment="left">

@@ -1,13 +1,12 @@
-import { RegisterBodySchema } from "@scr4m/common"
 import { GoogleLogin } from "./components/GoogleLogin"
 
 
 function App() {
-  RegisterBodySchema.parse({ token: '' })
   return (
-    <>
+    <div className="bg-secondary h-screen">
+      <p className="text-xl">HELLO</p>
       <GoogleLogin />
-    </>
+    </div>
   )
 }
 
