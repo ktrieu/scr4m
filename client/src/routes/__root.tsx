@@ -2,9 +2,8 @@ import { Outlet, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
     component: () => (
-        <>
-            <p>SCR4M</p>
+        <div className="bg-secondary h-screen">
             <Outlet />
-        </>
+        </div>
     ),
 })
