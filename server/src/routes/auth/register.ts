@@ -28,7 +28,7 @@ export const registerRegisterRoute = (fastify: FastifyApp) => {
         }
 
 
-        const existingUser = getUserByGoogleSubject(request.server.db, payload.sub);
+        const existingUser = await getUserByGoogleSubject(request.server.db, payload.sub);
         if (existingUser !== null) {
             // Oops, existing user already. Don't send a different error so we don't leak
             // user existence through the register endpoint.

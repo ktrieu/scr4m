@@ -8,13 +8,20 @@ declare global {
 }
 
 type GoogleLoginProps = {
-
+    onLogin: (token: string) => void
 }
 
-export const GoogleLogin = (_props: GoogleLoginProps) => {
+type GoogleLoginResponse = {
+    clientId: string,
+    client_id: string,
+    credential: string,
+    select_by: string,
+}
+
+export const GoogleLogin = (props: GoogleLoginProps) => {
     useEffect(() => {
-        window.onGoogleLogin = (token) => {
-            console.log(token)
+        window.onGoogleLogin = (resp: GoogleLoginResponse) => {
+            props.onLogin(resp.credential)
         }
     }, [])
 

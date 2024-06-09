@@ -4,6 +4,8 @@ export const RegisterBodySchema = z.object({
     token: z.string(),
 })
 
+export type RegisterBody = z.infer<typeof RegisterBodySchema>;
+
 export const RegisterPathSchema = z.object({
     company_id: z.coerce.number(),
 })
