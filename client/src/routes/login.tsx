@@ -6,8 +6,8 @@ import { GoogleLogin } from '../components/GoogleLogin'
 
 const LoginRoute = () => {
   return <AuthLayout>
-    <Logo />
-    <p className="text-xl mt-8 mb-12">Login to enter scrum:</p>
+    <p className="text-xl mt-8 mb-6">Login to continue to scrum:</p>
+    <hr className="border-primary b-2 w-full mb-6" />
     <GoogleLogin />
   </AuthLayout>
 }
