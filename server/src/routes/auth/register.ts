@@ -6,7 +6,6 @@ import { CompaniesId } from "../../schemas/public/Companies.js";
 
 
 export const registerRegisterRoute = (fastify: FastifyApp) => {
-    console.log(RegisterPathSchema.parse({ company_id: '22' }))
     fastify.post('/auth/register/:company_id', {
         schema: {
             body: RegisterBodySchema,
