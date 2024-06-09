@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@scr4m/common": "workspace:*",
+    "@tanstack/react-router": "^1.35.3",
     "i": "^0.3.7",
     "npm": "^10.8.0",
     "react": "^18.2.0",
@@ -18,6 +19,8 @@
     "react-helmet-async": "^2.0.5"
   },
   "devDependencies": {
+    "@tanstack/router-devtools": "^1.35.3",
+    "@tanstack/router-vite-plugin": "^1.34.8",
     "@types/node": "^20.12.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
