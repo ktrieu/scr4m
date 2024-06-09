@@ -10,7 +10,7 @@ server {
         index index.html;
     }
 
-    location /api {
+    location /api/ {
         proxy_pass http://server:3000/;
     }
 }
