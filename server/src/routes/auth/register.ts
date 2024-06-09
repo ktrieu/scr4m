@@ -1,0 +1,46 @@
+import { RegisterBodySchema, RegisterPathSchema, RegisterReturnSchema, RegisterUnauthorizedSchema } from "@scr4m/common";
+import { FastifyApp } from "../../index.js";
+import { verifyGoogleToken } from "../../auth/index.js";
+import { createUser, getUserByGoogleSubject } from "../../db/user/index.js";
+import { CompaniesId } from "../../schemas/public/Companies.js";
+
+
+export const registerRegisterRoute = (fastify: FastifyApp) => {
+    console.log(RegisterPathSchema.parse({ company_id: '22' }))
+    fastify.post('/auth/register/:company_id', {
+        schema: {
+            body: RegisterBodySchema,
+            params: RegisterPathSchema,
+            response: {
+                200: RegisterReturnSchema,
+                401: RegisterUnauthorizedSchema
+            }
+        }
+    }, async (request, reply) => {
+        const token = await verifyGoogleToken(request, request.body.token);
+        if (token === null) {
+            return reply.code(401).send({ code: 'SCR4M_unauthorized' });
+        }
+
+        const payload = token.getPayload();
+        if (payload === undefined) {
+            return reply.code(401).send({ code: 'SCR4M_unauthorized' });
+        }
+
+
+        const existingUser = getUserByGoogleSubject(request.server.db, payload.sub);
+        if (existingUser !== null) {
+            // Oops, existing user already. Don't send a different error so we don't leak
+            // user existence through the register endpoint.
+            return reply.code(401).send({ code: 'SCR4M_unauthorized' });
+        }
+
+        const newUser = await createUser(request.server.db, {
+            email: payload.email ?? '',
+            company_id: request.params.company_id as CompaniesId,
+            google_sub: payload.sub,
+        })
+
+        return reply.code(200).send(newUser);
+    });
+}

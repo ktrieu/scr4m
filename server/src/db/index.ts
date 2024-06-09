@@ -1,7 +1,8 @@
 import { readFileSync } from "fs"
-import { PostgresDialect } from "kysely"
+import { Kysely, PostgresDialect } from "kysely"
 import pg from "pg"
 import { ENV_CONFIG } from "../env.js"
+import PublicSchema from "../schemas/public/PublicSchema.js"
 
 export const createPostgresDialect = () => {
     return new PostgresDialect({
@@ -15,3 +16,5 @@ export const createPostgresDialect = () => {
         }),
     })
 }
+
+export type DbInstance = Kysely<PublicSchema>;
