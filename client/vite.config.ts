@@ -19,5 +19,10 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       exclude: ["@scr4m/common"]
     },
+    resolve: {
+      alias: {
+        "@public": "",
+      }
+    }
   }
 })
