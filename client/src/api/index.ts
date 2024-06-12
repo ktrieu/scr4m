@@ -2,9 +2,15 @@
 
 type FetchMethod = "GET" | "POST" | "DELETE"
 
-type FetchError<T> = {
-    code: number
-    response: T
+export class FetchError<T> extends Error {
+    status: number;
+    body: T;
+
+    constructor(status: number, body: T) {
+        super();
+        this.status = status;
+        this.body = body;
+    }
 }
 
 const getResponseBody = (r: Response): unknown => {
@@ -12,14 +18,10 @@ const getResponseBody = (r: Response): unknown => {
         return r.json()
     }
     catch (err) {
-        const fetchErr: FetchError<unknown> = {
-            code: r.status,
-            response: {
-                code: 'SCR4M_RESPONSE_JSON_ERROR',
-                error: err
-            }
-        }
-        throw fetchErr;
+        throw new FetchError(r.status, {
+            code: 'SCR4M_invalid_response_json',
+            error: err
+        });
     }
 }
 
@@ -39,11 +41,7 @@ const apiFetch = async <TBody>(url: string, method: FetchMethod, body?: TBody): 
     const respBody = getResponseBody(response);
 
     if (!response.ok) {
-        const fetchErr: FetchError<unknown> = {
-            code: response.status,
-            response: respBody,
-        }
-        throw fetchErr;
+        throw new FetchError(response.status, respBody);
     }
 
     return respBody;
