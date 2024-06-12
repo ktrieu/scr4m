@@ -1,10 +1,23 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { AuthLayout } from '../components/layout/AuthLayout'
 import { GoogleLogin } from '../components/GoogleLogin'
-import { LoginBody } from '@scr4m/common'
+import { HttpStatus, LoginBody } from '@scr4m/common'
 import { useMutation } from '@tanstack/react-query'
-import { apiPost } from '../api'
+import { apiPost, isFetchError } from '../api'
 
+const LoginError = (props: { error: unknown }) => {
+  if (!isFetchError(props.error)) {
+    return null;
+  }
+
+  switch (props.error.status) {
+    case HttpStatus.UNAUTHORIZED:
+      return <p className="text-sm mt-3">There was an error with your login.</p>
+    case HttpStatus.BAD_REQUEST:
+      return <p className="text-sm mt-3">No matching user was found.</p>
+  }
+
+}
 
 const LoginRoute = () => {
   const loginMutation = useMutation({
@@ -13,9 +26,6 @@ const LoginRoute = () => {
     },
     onSuccess: () => {
       alert("Login successful!")
-    },
-    onError: (e) => {
-      console.error(e);
     }
   })
 
@@ -25,6 +35,9 @@ const LoginRoute = () => {
     <GoogleLogin onLogin={(token) => {
       loginMutation.mutate({ token })
     }} />
+    {loginMutation.status === 'error' &&
+      <LoginError error={loginMutation.error} />
+    }
   </AuthLayout>
 }
 

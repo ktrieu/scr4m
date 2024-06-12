@@ -15,3 +15,7 @@ export const LoginReturnSchema = z.object({
 export const LoginUnauthorizedSchema = z.object({
     code: z.enum(['SCR4M_unauthorized']),
 })
+
+export const LoginBadRequestSchema = z.object({
+    code: z.enum(['SCR4M_no_user'])
+})

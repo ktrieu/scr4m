@@ -2,11 +2,11 @@
 
 type FetchMethod = "GET" | "POST" | "DELETE"
 
-export class FetchError<T> extends Error {
+export class FetchError extends Error {
     status: number;
-    body: T;
+    body: unknown;
 
-    constructor(status: number, body: T) {
+    constructor(status: number, body: unknown) {
         super();
         this.status = status;
         this.body = body;
@@ -57,4 +57,8 @@ export const apiPost = async <TBody>(url: string, body?: TBody) => {
 
 export const apiDelete = async (url: string) => {
     return apiFetch(url, "DELETE");
+}
+
+export const isFetchError = (e: unknown): e is FetchError => {
+    return e instanceof FetchError;
 }
