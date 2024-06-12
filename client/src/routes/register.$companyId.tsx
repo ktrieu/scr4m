@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, useParams } from '@tanstack/react-router'
 import { AuthLayout } from '../components/layout/AuthLayout'
 import { GoogleLogin } from '../components/GoogleLogin'
 import { useMutation } from '@tanstack/react-query'
@@ -23,9 +23,11 @@ const RegisterError = (props: { error: unknown }) => {
 }
 
 const RegisterRoute = () => {
+  const { companyId } = Route.useParams();
+
   const registerMutation = useMutation({
     mutationFn: async (body: RegisterBody) => {
-      return apiPost(`/api/auth/register/1`, body);
+      return apiPost(`/api/auth/register/${companyId}`, body);
     },
     onSuccess: () => {
       alert("Register successful!")
@@ -33,7 +35,7 @@ const RegisterRoute = () => {
   })
 
   return <AuthLayout>
-    <p className="text-xl mt-8 mb-6">Register with company:</p>
+    <p className="text-xl mt-8 mb-6">Register with company {companyId}:</p>
     <hr className="border-primary b-2 w-full mb-6" />
     <GoogleLogin onLogin={(token) => {
       registerMutation.mutate({ token })
@@ -44,6 +46,6 @@ const RegisterRoute = () => {
   </AuthLayout>
 }
 
-export const Route = createFileRoute('/register')({
+export const Route = createFileRoute('/register/$companyId')({
   component: RegisterRoute
 })

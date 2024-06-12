@@ -13,19 +13,14 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
+import { Route as RegisterCompanyIdImport } from './routes/register.$companyId'
 
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
-
-const RegisterRoute = RegisterImport.update({
-  path: '/register',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const LoginRoute = LoginImport.update({
   path: '/login',
@@ -36,6 +31,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const RegisterCompanyIdRoute = RegisterCompanyIdImport.update({
+  path: '/register/$companyId',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -55,11 +55,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterImport
+    '/register/$companyId': {
+      id: '/register/$companyId'
+      path: '/register/$companyId'
+      fullPath: '/register/$companyId'
+      preLoaderRoute: typeof RegisterCompanyIdImport
       parentRoute: typeof rootRoute
     }
   }
@@ -70,7 +70,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   LoginRoute,
-  RegisterRoute,
+  RegisterCompanyIdRoute,
 })
 
 /* prettier-ignore-end */
@@ -83,7 +83,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/login",
-        "/register"
+        "/register/$companyId"
       ]
     },
     "/": {
@@ -92,8 +92,8 @@ export const routeTree = rootRoute.addChildren({
     "/login": {
       "filePath": "login.tsx"
     },
-    "/register": {
-      "filePath": "register.tsx"
+    "/register/$companyId": {
+      "filePath": "register.$companyId.tsx"
     }
   }
 }
