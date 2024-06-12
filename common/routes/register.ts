@@ -16,6 +16,10 @@ export const RegisterReturnSchema = z.object({
     email: z.string(),
 })
 
+export const RegisterBadRequestSchema = z.object({
+    code: z.enum(["SCR4M_existing_user"]),
+})
+
 export const RegisterUnauthorizedSchema = z.object({
     code: z.enum(['SCR4M_unauthorized']),
 })

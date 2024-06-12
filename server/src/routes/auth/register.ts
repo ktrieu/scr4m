@@ -1,4 +1,4 @@
-import { RegisterBodySchema, RegisterPathSchema, RegisterReturnSchema, RegisterUnauthorizedSchema } from "@scr4m/common";
+import { RegisterBadRequestSchema, RegisterBodySchema, RegisterPathSchema, RegisterReturnSchema, RegisterUnauthorizedSchema } from "@scr4m/common";
 import { FastifyApp } from "../../index.js";
 import { verifyGoogleToken } from "../../auth/index.js";
 import { createUser, getUserByGoogleSubject } from "../../db/user/index.js";
@@ -12,6 +12,7 @@ export const registerRegisterRoute = (fastify: FastifyApp) => {
             params: RegisterPathSchema,
             response: {
                 200: RegisterReturnSchema,
+                400: RegisterBadRequestSchema,
                 401: RegisterUnauthorizedSchema
             }
         }
@@ -31,7 +32,7 @@ export const registerRegisterRoute = (fastify: FastifyApp) => {
         if (existingUser !== null) {
             // Oops, existing user already. Don't send a different error so we don't leak
             // user existence through the register endpoint.
-            return reply.code(401).send({ code: 'SCR4M_unauthorized' });
+            return reply.code(400).send({ code: 'SCR4M_existing_user' });
         }
 
         const newUser = await createUser(request.server.db, {

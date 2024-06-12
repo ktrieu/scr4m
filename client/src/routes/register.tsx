@@ -1,9 +1,26 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { AuthLayout } from '../components/layout/AuthLayout'
 import { GoogleLogin } from '../components/GoogleLogin'
 import { useMutation } from '@tanstack/react-query'
-import { RegisterBody } from '@scr4m/common'
-import { apiPost } from '../api'
+import { HttpStatus, RegisterBody } from '@scr4m/common'
+import { apiPost, isFetchError } from '../api'
+
+const RegisterError = (props: { error: unknown }) => {
+  if (!isFetchError(props.error)) {
+    return null;
+  }
+
+  switch (props.error.status) {
+    case HttpStatus.UNAUTHORIZED:
+      return <p className="text-sm mt-3">There was an error with your registration.</p>
+    case HttpStatus.BAD_REQUEST:
+      return <>
+        <p className="text-sm mt-3">A matching user already exists.</p>
+        <p className="text-sm"><Link to="/login" className="underline">Login</Link> here.</p>
+      </>
+  }
+
+}
 
 const RegisterRoute = () => {
   const registerMutation = useMutation({
@@ -12,9 +29,6 @@ const RegisterRoute = () => {
     },
     onSuccess: () => {
       alert("Register successful!")
-    },
-    onError: (e) => {
-      console.error(e);
     }
   })
 
@@ -24,6 +38,9 @@ const RegisterRoute = () => {
     <GoogleLogin onLogin={(token) => {
       registerMutation.mutate({ token })
     }} />
+    {registerMutation.status === 'error' &&
+      <RegisterError error={registerMutation.error} />
+    }
   </AuthLayout>
 }
 
