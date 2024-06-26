@@ -2,6 +2,7 @@ import Fastify from "fastify";
 import { ENV_CONFIG } from "./env.js";
 import { ZodTypeProvider, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { kyselyPlugin } from "./kysely-plugin.js";
+import { registerAuthRoutes } from "./routes/auth/index.js";
 
 const fastify = Fastify({
     logger: true
@@ -14,12 +15,6 @@ const app = fastify.withTypeProvider<ZodTypeProvider>().register(kyselyPlugin);
 
 export type FastifyApp = typeof app;
 
-app.get("/", async (request, reply) => {
-    const result = await request.server.db.selectFrom("companies").select(({ fn, val, ref }) => [
-        fn.count("companies.id").as("num_companies")
-    ]).execute();
-
-    reply.send(`${result[0].num_companies} companies!`)
-})
+registerAuthRoutes(app);
 
 fastify.listen({ port: ENV_CONFIG.PORT, host: '0.0.0.0' })
