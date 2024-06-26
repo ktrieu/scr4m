@@ -1,5 +1,5 @@
-import { useEffect } from "react"
-import { Helmet } from "react-helmet-async"
+import { useEffect, useRef } from "react"
+import useScript from "react-script-hook"
 
 declare global {
     interface Window {
@@ -11,39 +11,38 @@ type GoogleLoginProps = {
     onLogin: (token: string) => void
 }
 
-type GoogleLoginResponse = {
-    clientId: string,
-    client_id: string,
-    credential: string,
-    select_by: string,
-}
-
 export const GoogleLogin = (props: GoogleLoginProps) => {
-    useEffect(() => {
-        window.onGoogleLogin = (resp: GoogleLoginResponse) => {
-            props.onLogin(resp.credential)
+    const googleButton = useRef<HTMLDivElement | null>(null);
+
+    const onGoogleLogin = (response: google.accounts.id.CredentialResponse) => {
+        props.onLogin(response.credential)
+    }
+
+    const [gsiLoading, gsiError] = useScript({
+        src: "https://accounts.google.com/gsi/client",
+        onload: () => {
+            window.google.accounts.id.initialize({
+                client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+                callback: onGoogleLogin
+            })
         }
-    }, [])
+    })
+
+    useEffect(() => {
+        if (!gsiLoading && !gsiError && googleButton.current !== null) {
+            window.google.accounts.id.renderButton(googleButton.current, {
+                type: "standard",
+                shape: 'rectangular',
+                theme: 'filled_black',
+                text: 'continue_with',
+                size: 'medium',
+                logo_alignment: 'left'
+            });
+        }
+    }, [gsiLoading, gsiError, googleButton])
+
 
     return <>
-        <Helmet>
-            <script src="https://accounts.google.com/gsi/client" async></script>
-        </Helmet>
-        <div id="g_id_onload"
-            data-client_id={import.meta.env.VITE_GOOGLE_CLIENT_ID}
-            data-context="signin"
-            data-ux_mode="popup"
-            data-callback="onGoogleLogin"
-            data-auto_prompt="false">
-        </div>
-
-        <div className="g_id_signin"
-            data-type="standard"
-            data-shape="rectangular"
-            data-theme="filled_black"
-            data-text="continue_with"
-            data-size="medium"
-            data-logo_alignment="left">
-        </div>
+        <div ref={googleButton}></div>
     </>
 }
