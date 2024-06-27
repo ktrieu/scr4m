@@ -1,4 +1,4 @@
-import type PublicSchema from './public/PublicSchema.js';
+import type PublicSchema from "./public/PublicSchema.js";
 
 type Database = PublicSchema;
 

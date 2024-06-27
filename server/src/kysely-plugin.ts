@@ -8,19 +8,19 @@ import type Database from "./schemas/Database.js";
 import { FastifyPluginCallback } from "fastify";
 import { createPostgresDialect } from "./db/index.js";
 
-declare module 'fastify' {
-    interface FastifyInstance {
-        db: Kysely<Database>
-    }
+declare module "fastify" {
+	interface FastifyInstance {
+		db: Kysely<Database>;
+	}
 }
 
 const pluginCallback: FastifyPluginCallback = (fastify, opts, done) => {
-    const dialect = createPostgresDialect();
+	const dialect = createPostgresDialect();
 
-    const db = new Kysely<Database>({ dialect });
-    fastify.decorate('db', db);
+	const db = new Kysely<Database>({ dialect });
+	fastify.decorate("db", db);
 
-    done();
+	done();
 };
 
 export const kyselyPlugin = fp(pluginCallback);
