@@ -1,6 +1,6 @@
 import { Insertable } from "kysely";
-import { NewUsers, Users } from "../../schemas/public/Users.js";
-import { DbInstance } from "../index.js";
+import type { NewUsers, Users } from "../../schemas/public/Users.js";
+import type { DbInstance } from "../index.js";
 
 export const getUserByGoogleSubject = async (
 	db: DbInstance,

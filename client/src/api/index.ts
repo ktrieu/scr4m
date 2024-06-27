@@ -30,7 +30,7 @@ const apiFetch = async <TBody>(
 	body?: TBody,
 ): Promise<unknown> => {
 	const encodedBody = body ? JSON.stringify(body) : undefined;
-	let headers: HeadersInit = {};
+	const headers: HeadersInit = {};
 	if (body) {
 		headers["Content-Type"] = "application/json";
 	}

@@ -5,10 +5,10 @@ import {
 	RegisterReturnSchema,
 	RegisterUnauthorizedSchema,
 } from "@scr4m/common";
-import { FastifyApp } from "../../index.js";
+import type { FastifyApp } from "../../index.js";
 import { verifyGoogleToken } from "../../auth/index.js";
 import { createUser, getUserByGoogleSubject } from "../../db/user/index.js";
-import { CompaniesId } from "../../schemas/public/Companies.js";
+import type { CompaniesId } from "../../schemas/public/Companies.js";
 
 export const registerRegisterRoute = (fastify: FastifyApp) => {
 	fastify.post(

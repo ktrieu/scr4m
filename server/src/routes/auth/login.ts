@@ -4,7 +4,7 @@ import {
 	LoginReturnSchema,
 	LoginUnauthorizedSchema,
 } from "@scr4m/common";
-import { FastifyApp } from "../../index.js";
+import type { FastifyApp } from "../../index.js";
 import { verifyGoogleToken } from "../../auth/index.js";
 import { getUserByGoogleSubject } from "../../db/user/index.js";
 

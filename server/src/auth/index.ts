@@ -1,5 +1,5 @@
-import { FastifyRequest } from "fastify";
-import { LoginTicket, OAuth2Client } from "google-auth-library";
+import type { FastifyRequest } from "fastify";
+import { type LoginTicket, OAuth2Client } from "google-auth-library";
 
 const googleOAuthClient = new OAuth2Client();
 

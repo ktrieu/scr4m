@@ -2,10 +2,10 @@ import fp from "fastify-plugin";
 import { Kysely, PostgresDialect } from "kysely";
 import { Pool } from "pg";
 import { ENV_CONFIG } from "./env.js";
-import { readFileSync } from "fs";
+import { readFileSync } from "node:fs";
 
 import type Database from "./schemas/Database.js";
-import { FastifyPluginCallback } from "fastify";
+import type { FastifyPluginCallback } from "fastify";
 import { createPostgresDialect } from "./db/index.js";
 
 declare module "fastify" {

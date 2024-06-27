@@ -6,7 +6,7 @@ import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd());
 
-	const port = parseInt(env.VITE_PORT);
+	const port = Number.parseInt(env.VITE_PORT);
 
 	return {
 		plugins: [react(), TanStackRouterVite()],

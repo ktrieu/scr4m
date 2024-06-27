@@ -21,9 +21,9 @@ const requiredString = (key: string) => {
 const requiredNumber = (key: string) => {
 	const value = requiredString(key);
 
-	const numValue = parseInt(value, 10);
+	const numValue = Number.parseInt(value, 10);
 
-	if (isNaN(numValue)) {
+	if (Number.isNaN(numValue)) {
 		throw new Error(`Environment variable ${key} was not a valid number!`);
 	}
 

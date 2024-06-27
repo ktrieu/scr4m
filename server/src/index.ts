@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import { ENV_CONFIG } from "./env.js";
 import {
-	ZodTypeProvider,
+	type ZodTypeProvider,
 	serializerCompiler,
 	validatorCompiler,
 } from "fastify-type-provider-zod";

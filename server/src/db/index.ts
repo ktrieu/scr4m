@@ -1,8 +1,8 @@
-import { readFileSync } from "fs";
-import { Kysely, PostgresDialect } from "kysely";
+import { readFileSync } from "node:fs";
+import { type Kysely, PostgresDialect } from "kysely";
 import pg from "pg";
 import { ENV_CONFIG } from "../env.js";
-import PublicSchema from "../schemas/public/PublicSchema.js";
+import type PublicSchema from "../schemas/public/PublicSchema.js";
 
 export const createPostgresDialect = () => {
 	return new PostgresDialect({

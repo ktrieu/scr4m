@@ -2,7 +2,7 @@ import { Link, createFileRoute, useParams } from "@tanstack/react-router";
 import { AuthLayout } from "../components/layout/AuthLayout";
 import { GoogleLogin } from "../components/GoogleLogin";
 import { useMutation } from "@tanstack/react-query";
-import { HttpStatus, RegisterBody } from "@scr4m/common";
+import { HttpStatus, type RegisterBody } from "@scr4m/common";
 import { apiPost, isFetchError } from "../api";
 
 const RegisterError = (props: { error: unknown }) => {

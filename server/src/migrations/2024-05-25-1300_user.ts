@@ -1,4 +1,4 @@
-import { Kysely, SchemaModule } from "kysely";
+import { type Kysely, SchemaModule } from "kysely";
 
 export async function up(db: Kysely<any>): Promise<void> {
 	await db.schema

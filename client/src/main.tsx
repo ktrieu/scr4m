@@ -15,6 +15,7 @@ declare module "@tanstack/react-router" {
 
 const queryClient = new QueryClient();
 
+// biome-ignore lint/style/noNonNullAssertion: Trust me, the element is there.
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>

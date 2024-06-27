@@ -1,12 +1,6 @@
 import { useEffect, useRef } from "react";
 import useScript from "react-script-hook";
 
-declare global {
-	interface Window {
-		onGoogleLogin: (arg: any) => void;
-	}
-}
-
 type GoogleLoginProps = {
 	onLogin: (token: string) => void;
 };
@@ -39,11 +33,7 @@ export const GoogleLogin = (props: GoogleLoginProps) => {
 				logo_alignment: "left",
 			});
 		}
-	}, [gsiLoading, gsiError, googleButton]);
+	}, [gsiLoading, gsiError]);
 
-	return (
-		<>
-			<div ref={googleButton}></div>
-		</>
-	);
+	return <div ref={googleButton} />;
 };

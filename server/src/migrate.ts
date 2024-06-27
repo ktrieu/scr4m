@@ -1,6 +1,6 @@
-import * as path from "path";
+import * as path from "node:path";
 import { Pool } from "pg";
-import { promises as fs, readFileSync } from "fs";
+import { promises as fs, readFileSync } from "node:fs";
 import {
 	Kysely,
 	Migrator,
@@ -26,13 +26,13 @@ async function migrateToLatest() {
 
 	const { error, results } = await migrator.migrateToLatest();
 
-	results?.forEach((it) => {
+	for (const it of results ?? []) {
 		if (it.status === "Success") {
 			console.log(`migration "${it.migrationName}" was executed successfully`);
 		} else if (it.status === "Error") {
 			console.error(`failed to execute migration "${it.migrationName}"`);
 		}
-	});
+	}
 
 	if (error) {
 		console.error("failed to migrate");

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AuthLayout } from "../components/layout/AuthLayout";
 import { GoogleLogin } from "../components/GoogleLogin";
-import { HttpStatus, LoginBody } from "@scr4m/common";
+import { HttpStatus, type LoginBody } from "@scr4m/common";
 import { useMutation } from "@tanstack/react-query";
 import { apiPost, isFetchError } from "../api";
 
@@ -23,7 +23,7 @@ const LoginError = (props: { error: unknown }) => {
 const LoginRoute = () => {
 	const loginMutation = useMutation({
 		mutationFn: async (body: LoginBody) => {
-			return apiPost(`/api/auth/login`, body);
+			return apiPost("/api/auth/login", body);
 		},
 		onSuccess: () => {
 			alert("Login successful!");
