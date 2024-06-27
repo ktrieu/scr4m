@@ -1,6 +1,6 @@
-import * as path from "node:path";
 import { promises as fs } from "node:fs";
-import { Kysely, Migrator, FileMigrationProvider } from "kysely";
+import * as path from "node:path";
+import { FileMigrationProvider, Kysely, Migrator } from "kysely";
 import { createPostgresDialect } from "./db/index.js";
 
 async function migrateToLatest() {

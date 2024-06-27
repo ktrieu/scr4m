@@ -1,9 +1,9 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { AuthLayout } from "../components/layout/AuthLayout";
-import { GoogleLogin } from "../components/GoogleLogin";
-import { useMutation } from "@tanstack/react-query";
 import { HttpStatus, type RegisterBody } from "@scr4m/common";
+import { useMutation } from "@tanstack/react-query";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { apiPost, isFetchError } from "../api";
+import { GoogleLogin } from "../components/GoogleLogin";
+import { AuthLayout } from "../components/layout/AuthLayout";
 
 const RegisterError = (props: { error: unknown }) => {
 	if (!isFetchError(props.error)) {

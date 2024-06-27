@@ -1,4 +1,4 @@
-import type { ColumnType, Selectable, Insertable, Updateable } from "kysely";
+import type { ColumnType, Insertable, Selectable, Updateable } from "kysely";
 
 /** Identifier type for public.kysely_migration */
 export type KyselyMigrationName = string & { __brand: "KyselyMigrationName" };

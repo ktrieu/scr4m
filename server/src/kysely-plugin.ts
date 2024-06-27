@@ -1,9 +1,9 @@
 import fp from "fastify-plugin";
 import { Kysely } from "kysely";
 
-import type Database from "./schemas/Database.js";
 import type { FastifyPluginCallback } from "fastify";
 import { createPostgresDialect } from "./db/index.js";
+import type Database from "./schemas/Database.js";
 
 declare module "fastify" {
 	interface FastifyInstance {

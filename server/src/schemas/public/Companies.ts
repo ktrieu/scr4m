@@ -1,4 +1,4 @@
-import type { ColumnType, Selectable, Insertable, Updateable } from "kysely";
+import type { ColumnType, Insertable, Selectable, Updateable } from "kysely";
 
 /** Identifier type for public.companies */
 export type CompaniesId = number & { __brand: "CompaniesId" };

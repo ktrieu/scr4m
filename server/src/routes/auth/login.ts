@@ -4,9 +4,9 @@ import {
 	LoginReturnSchema,
 	LoginUnauthorizedSchema,
 } from "@scr4m/common";
-import type { FastifyApp } from "../../index.js";
 import { verifyGoogleToken } from "../../auth/index.js";
 import { getUserByGoogleSubject } from "../../db/user/index.js";
+import type { FastifyApp } from "../../index.js";
 
 export const registerLoginRoute = (fastify: FastifyApp) => {
 	fastify.post(

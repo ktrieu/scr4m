@@ -1,10 +1,10 @@
 import Fastify from "fastify";
-import { ENV_CONFIG } from "./env.js";
 import {
 	type ZodTypeProvider,
 	serializerCompiler,
 	validatorCompiler,
 } from "fastify-type-provider-zod";
+import { ENV_CONFIG } from "./env.js";
 import { kyselyPlugin } from "./kysely-plugin.js";
 import { registerAuthRoutes } from "./routes/auth/index.js";
 

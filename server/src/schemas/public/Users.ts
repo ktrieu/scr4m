@@ -1,5 +1,5 @@
+import type { ColumnType, Insertable, Selectable, Updateable } from "kysely";
 import type { CompaniesId } from "./Companies.js";
-import type { ColumnType, Selectable, Insertable, Updateable } from "kysely";
 
 /** Identifier type for public.users */
 export type UsersId = number & { __brand: "UsersId" };
