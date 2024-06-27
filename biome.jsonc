@@ -1,0 +1,36 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.8.2/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"correctness": {
+				"noUnusedImports": "error"
+			}
+		}
+	},
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"overrides": [
+		{
+			"include": ["server/src/migrations/*.ts"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						// Using any is standard practice for the Kysely migrations.
+						"noExplicitAny": "off"
+					}
+				}
+			}
+		}
+	],
+	"files": {
+		"ignore": ["client/src/routeTree.gen.ts"]
+	}
+}

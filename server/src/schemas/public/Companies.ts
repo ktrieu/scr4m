@@ -1,11 +1,11 @@
-import type { ColumnType, Selectable, Insertable, Updateable } from 'kysely';
+import type { ColumnType, Insertable, Selectable, Updateable } from "kysely";
 
 /** Identifier type for public.companies */
-export type CompaniesId = number & { __brand: 'CompaniesId' };
+export type CompaniesId = number & { __brand: "CompaniesId" };
 
 /** Represents the table public.companies */
 export default interface CompaniesTable {
-  id: ColumnType<CompaniesId, never, never>;
+	id: ColumnType<CompaniesId, never, never>;
 }
 
 export type Companies = Selectable<CompaniesTable>;

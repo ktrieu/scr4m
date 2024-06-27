@@ -1,13 +1,17 @@
-import type { ColumnType, Selectable, Insertable, Updateable } from 'kysely';
+import type { ColumnType, Insertable, Selectable, Updateable } from "kysely";
 
 /** Identifier type for public.kysely_migration */
-export type KyselyMigrationName = string & { __brand: 'KyselyMigrationName' };
+export type KyselyMigrationName = string & { __brand: "KyselyMigrationName" };
 
 /** Represents the table public.kysely_migration */
 export default interface KyselyMigrationTable {
-  name: ColumnType<KyselyMigrationName, KyselyMigrationName, KyselyMigrationName>;
+	name: ColumnType<
+		KyselyMigrationName,
+		KyselyMigrationName,
+		KyselyMigrationName
+	>;
 
-  timestamp: ColumnType<string, string, string>;
+	timestamp: ColumnType<string, string, string>;
 }
 
 export type KyselyMigration = Selectable<KyselyMigrationTable>;
