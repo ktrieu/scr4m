@@ -1,5 +1,5 @@
 import fp from "fastify-plugin";
-import { Kysely, } from "kysely";
+import { Kysely } from "kysely";
 
 import type Database from "./schemas/Database.js";
 import type { FastifyPluginCallback } from "fastify";

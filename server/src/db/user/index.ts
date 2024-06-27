@@ -1,4 +1,3 @@
-
 import type { NewUsers, Users } from "../../schemas/public/Users.js";
 import type { DbInstance } from "../index.js";
 

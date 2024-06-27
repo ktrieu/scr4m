@@ -30,7 +30,7 @@
 			}
 		},
 		{
-			"include": [ "client/src/routeTree.gen.ts"],
+			"include": ["client/src/routeTree.gen.ts"],
 			"linter": {
 				"rules": {
 					"suspicious": {

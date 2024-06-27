@@ -1,4 +1,4 @@
-import { Link, createFileRoute, } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { AuthLayout } from "../components/layout/AuthLayout";
 import { GoogleLogin } from "../components/GoogleLogin";
 import { useMutation } from "@tanstack/react-query";
