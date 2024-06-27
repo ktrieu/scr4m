@@ -1,10 +1,8 @@
 import * as path from "node:path";
-import { Pool } from "pg";
-import { promises as fs, readFileSync } from "node:fs";
+import { promises as fs, } from "node:fs";
 import {
 	Kysely,
 	Migrator,
-	PostgresDialect,
 	FileMigrationProvider,
 } from "kysely";
 import { createPostgresDialect } from "./db/index.js";

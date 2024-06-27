@@ -1,8 +1,5 @@
 import fp from "fastify-plugin";
-import { Kysely, PostgresDialect } from "kysely";
-import { Pool } from "pg";
-import { ENV_CONFIG } from "./env.js";
-import { readFileSync } from "node:fs";
+import { Kysely, } from "kysely";
 
 import type Database from "./schemas/Database.js";
 import type { FastifyPluginCallback } from "fastify";
