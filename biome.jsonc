@@ -28,17 +28,9 @@
 					}
 				}
 			}
-		},
-		{
-			"include": ["client/src/routeTree.gen.ts"],
-			"linter": {
-				"rules": {
-					"suspicious": {
-						// TanStack router's automated route tree generation includes any's.
-						"noExplicitAny": "off"
-					}
-				}
-			}
 		}
-	]
+	],
+	"files": {
+		"ignore": ["client/src/routeTree.gen.ts"]
+	}
 }
