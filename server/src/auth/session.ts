@@ -1,5 +1,7 @@
 import type { FastifySessionOptions, SessionStore } from "@fastify/session";
 import { ENV_CONFIG } from "../env.js";
+import type { Kysely } from "kysely";
+import type Database from "../schemas/Database.js";
 
 declare module "fastify" {
 	interface Session {
@@ -7,7 +9,7 @@ declare module "fastify" {
 	}
 }
 
-const createSessionStore = (): SessionStore => {
+const createSessionStore = (db: Kysely<Database>): SessionStore => {
 	// Bunch of no-op stuff for now.
 	return {
 		get: (sessionId, callback) => {},
@@ -16,9 +18,11 @@ const createSessionStore = (): SessionStore => {
 	};
 };
 
-export const getSessionRegisterOptions = (): FastifySessionOptions => {
+export const createSessionRegisterOptions = (
+	db: Kysely<Database>,
+): FastifySessionOptions => {
 	return {
 		secret: ENV_CONFIG.SESSION_SECRET,
-		store: createSessionStore(),
+		store: createSessionStore(db),
 	};
 };
