@@ -7,6 +7,7 @@ import {
 import { ENV_CONFIG } from "./env.js";
 import { kyselyPlugin } from "./kysely-plugin.js";
 import { fastifySession } from "@fastify/session";
+import { fastifyCookie } from "@fastify/cookie";
 import { registerAuthRoutes } from "./routes/auth/index.js";
 import { getSessionRegisterOptions } from "./auth/session.js";
 
@@ -20,6 +21,7 @@ fastify.setSerializerCompiler(serializerCompiler);
 const app = fastify
 	.withTypeProvider<ZodTypeProvider>()
 	.register(kyselyPlugin)
+	.register(fastifyCookie)
 	.register(fastifySession, getSessionRegisterOptions());
 
 export type FastifyApp = typeof app;
