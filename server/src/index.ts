@@ -1,15 +1,15 @@
+import { fastifyCookie } from "@fastify/cookie";
+import { fastifySession } from "@fastify/session";
 import Fastify from "fastify";
 import {
 	type ZodTypeProvider,
 	serializerCompiler,
 	validatorCompiler,
 } from "fastify-type-provider-zod";
+import { getSessionRegisterOptions } from "./auth/session.js";
 import { ENV_CONFIG } from "./env.js";
 import { kyselyPlugin } from "./kysely-plugin.js";
-import { fastifySession } from "@fastify/session";
-import { fastifyCookie } from "@fastify/cookie";
 import { registerAuthRoutes } from "./routes/auth/index.js";
-import { getSessionRegisterOptions } from "./auth/session.js";
 
 const fastify = Fastify({
 	logger: true,
