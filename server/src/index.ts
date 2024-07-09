@@ -6,7 +6,9 @@ import {
 } from "fastify-type-provider-zod";
 import { ENV_CONFIG } from "./env.js";
 import { kyselyPlugin } from "./kysely-plugin.js";
+import { fastifySession } from "@fastify/session";
 import { registerAuthRoutes } from "./routes/auth/index.js";
+import { getSessionRegisterOptions } from "./auth/session.js";
 
 const fastify = Fastify({
 	logger: true,
@@ -15,7 +17,10 @@ const fastify = Fastify({
 fastify.setValidatorCompiler(validatorCompiler);
 fastify.setSerializerCompiler(serializerCompiler);
 
-const app = fastify.withTypeProvider<ZodTypeProvider>().register(kyselyPlugin);
+const app = fastify
+	.withTypeProvider<ZodTypeProvider>()
+	.register(kyselyPlugin)
+	.register(fastifySession, getSessionRegisterOptions());
 
 export type FastifyApp = typeof app;
 

@@ -5,6 +5,7 @@ type Config = {
 	DATABASE_NAME: string;
 	DATABASE_PORT: number;
 	DATABASE_USE_SSL: boolean;
+	SESSION_SECRET: string;
 	PORT: number;
 };
 
@@ -50,5 +51,6 @@ export const ENV_CONFIG: Config = {
 	DATABASE_NAME: requiredString("DATABASE_NAME"),
 	DATABASE_PORT: requiredNumber("DATABASE_PORT"),
 	DATABASE_USE_SSL: requiredBool("DATABASE_USE_SSL"),
+	SESSION_SECRET: requiredString("SESSION_SECRET"),
 	PORT: requiredNumber("PORT"),
 };

@@ -10,6 +10,7 @@ services:
       - DATABASE_PASSWORD=${PSQL_PASSWORD}
       - DATABASE_NAME=${PSQL_DB}
       - DATABASE_PORT=${PSQL_PORT}
+      - SESSION_SECRET=${SESSION_SECRET}
   proxy:
     build:
       context: ./

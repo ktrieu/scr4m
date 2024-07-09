@@ -21,6 +21,7 @@
 		"typescript": "^5.4.5"
 	},
 	"dependencies": {
+		"@fastify/session": "^10.9.0",
 		"@scr4m/common": "workspace:*",
 		"fastify": "^4.27.0",
 		"fastify-plugin": "^4.5.1",
