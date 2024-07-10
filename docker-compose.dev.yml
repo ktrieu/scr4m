@@ -8,6 +8,7 @@ services:
       - ./common:/app/common
     environment:
       - DATABASE_USE_SSL=false
+      - USE_SECURE_SESSION_COOKIE=false
   # We only need a front-end container in dev - in production we'll
   # build into a static bundle.
   client:

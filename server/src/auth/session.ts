@@ -87,5 +87,8 @@ export const createSessionRegisterOptions = (
 	return {
 		secret: ENV_CONFIG.SESSION_SECRET,
 		store: createSessionStore(db),
+		cookie: {
+			secure: ENV_CONFIG.USE_SECURE_SESSION_COOKIE,
+		},
 	};
 };
