@@ -6,12 +6,12 @@ import {
 	serializerCompiler,
 	validatorCompiler,
 } from "fastify-type-provider-zod";
+import { Kysely } from "kysely";
 import { createSessionRegisterOptions } from "./auth/session.js";
+import { createPostgresDialect } from "./db/index.js";
 import { ENV_CONFIG } from "./env.js";
 import { createKyselyPlugin } from "./kysely-plugin.js";
 import { registerAuthRoutes } from "./routes/auth/index.js";
-import { createPostgresDialect } from "./db/index.js";
-import { Kysely } from "kysely";
 import type Database from "./schemas/Database.js";
 
 const fastify = Fastify({

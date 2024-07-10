@@ -1,8 +1,8 @@
 import fp from "fastify-plugin";
 
 import type { FastifyPluginCallback } from "fastify";
-import type Database from "./schemas/Database.js";
 import type { Kysely } from "kysely";
+import type Database from "./schemas/Database.js";
 
 declare module "fastify" {
 	interface FastifyInstance {
