@@ -5,6 +5,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		.createTable("sessions")
 		.addColumn("id", "text", (col) => col.notNull().primaryKey())
 		.addColumn("user_id", "integer", (col) => col.notNull())
+		.addColumn("cookie", "jsonb", (col) => col.notNull())
 		.addColumn("expiry", "timestamptz", (col) => col.notNull())
 		.addForeignKeyConstraint(
 			"sessions_users_foreign_key",

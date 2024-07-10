@@ -10,6 +10,8 @@ export default interface SessionsTable {
 
 	user_id: ColumnType<UsersId, UsersId, UsersId>;
 
+	cookie: ColumnType<unknown, unknown, unknown>;
+
 	expiry: ColumnType<Date, Date | string, Date | string>;
 }
 
