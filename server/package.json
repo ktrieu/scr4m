@@ -9,7 +9,8 @@
 		"dev": "nodemon",
 		"build": "tsc",
 		"start": "node dist/index.js",
-		"migrate": "node dist/migrate.js"
+		"migrate": "node dist/migrate.js",
+		"rollback": "node dist/migration-rollback.js"
 	},
 	"devDependencies": {
 		"@dotenvx/dotenvx": "^0.44.0",
