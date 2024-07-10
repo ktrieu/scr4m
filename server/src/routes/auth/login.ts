@@ -37,6 +37,8 @@ export const registerLoginRoute = (fastify: FastifyApp) => {
 				return reply.code(400).send({ code: "SCR4M_no_user" });
 			}
 
+			request.session.user_id = user.id;
+
 			return user;
 		},
 	);
