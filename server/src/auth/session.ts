@@ -92,6 +92,7 @@ export const createSessionRegisterOptions = (
 		cookie: {
 			secure: ENV_CONFIG.USE_SECURE_SESSION_COOKIE,
 		},
+		saveUninitialized: false,
 	};
 };
 
