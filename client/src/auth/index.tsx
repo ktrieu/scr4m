@@ -1,7 +1,7 @@
 import type { User } from "@scr4m/common/user";
 import { MeReturnSchema } from "@scr4m/common/routes/me";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useContext } from "react";
 import { apiGet, isFetchError } from "../api";
 
 type AuthContext = {
@@ -13,6 +13,8 @@ const authContext = React.createContext<AuthContext>({
 });
 
 export const ME_QUERY_KEY = ["auth", "me"];
+
+export const useAuthContext = () => useContext(authContext);
 
 export const AuthProvider = (props: { children?: React.ReactNode }) => {
 	const { data } = useQuery({
@@ -36,7 +38,6 @@ export const AuthProvider = (props: { children?: React.ReactNode }) => {
 
 	return (
 		<authContext.Provider value={{ user: data }}>
-			<pre>{JSON.stringify(data)}</pre>
 			{props.children}
 		</authContext.Provider>
 	);
