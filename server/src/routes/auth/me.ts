@@ -1,4 +1,4 @@
-import { MeReturnSchema } from "@scr4m/common";
+import { MeReturnSchema, MeUnauthorizedSchema } from "@scr4m/common";
 import type { FastifyApp } from "../../index.js";
 import { getUserFromSession } from "../../auth/session.js";
 
@@ -9,6 +9,7 @@ export const registerMeRoute = (fastify: FastifyApp) => {
 			schema: {
 				response: {
 					200: MeReturnSchema,
+					401: MeUnauthorizedSchema,
 				},
 			},
 		},
@@ -16,7 +17,7 @@ export const registerMeRoute = (fastify: FastifyApp) => {
 			const user = await getUserFromSession(fastify.db, request.session);
 
 			if (!user) {
-				return reply.code(401).send();
+				return reply.code(401).send({});
 			}
 
 			return {
