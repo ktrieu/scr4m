@@ -1,6 +1,6 @@
 import { HttpStatus, LoginReturnSchema, type LoginBody } from "@scr4m/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { apiPost, isFetchError } from "../api";
 import { GoogleLogin } from "../components/GoogleLogin";
 import { AuthLayout } from "../components/layout/AuthLayout";
@@ -22,6 +22,7 @@ const LoginError = (props: { error: unknown }) => {
 };
 
 const LoginRoute = () => {
+	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 
 	const loginMutation = useMutation({
@@ -31,6 +32,7 @@ const LoginRoute = () => {
 		},
 		onSuccess: (data) => {
 			queryClient.setQueryData(ME_QUERY_KEY, data);
+			navigate({ to: "/" });
 		},
 	});
 
