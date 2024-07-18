@@ -8,10 +8,12 @@ import {
 	deleteSession,
 	getSessionById,
 } from "../db/session/index.js";
+import type { Users } from "../schemas/public/Users.js";
+import { getUserById } from "../db/user/index.js";
 
 declare module "fastify" {
 	interface Session {
-		user_id: number;
+		user_id: number | undefined;
 	}
 }
 
@@ -91,4 +93,16 @@ export const createSessionRegisterOptions = (
 			secure: ENV_CONFIG.USE_SECURE_SESSION_COOKIE,
 		},
 	};
+};
+
+export const getUserFromSession = async (
+	db: Kysely<Database>,
+	session: Session,
+): Promise<Users | null> => {
+	if (session.user_id === undefined) {
+		return null;
+	}
+
+	const user = await getUserById(db, session.user_id);
+	return user ?? null;
 };
