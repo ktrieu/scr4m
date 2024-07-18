@@ -4,7 +4,7 @@ import { ENV_CONFIG } from "../env.js";
 import type Database from "../schemas/Database.js";
 import type { Session } from "fastify";
 import {
-	createSession,
+	createOrUpdateSession,
 	deleteSession,
 	getSessionById,
 } from "../db/session/index.js";
@@ -43,7 +43,7 @@ const asyncSetSession = async (
 	session: Session,
 ) => {
 	const expiry = Date.now() + SESSION_EXPIRY_MS;
-	await createSession(db, sessionId, new Date(expiry), session);
+	await createOrUpdateSession(db, sessionId, new Date(expiry), session);
 };
 
 const asyncDeleteSession = async (db: Kysely<Database>, sessionId: string) => {

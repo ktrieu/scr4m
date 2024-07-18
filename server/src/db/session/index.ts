@@ -16,7 +16,7 @@ export const getSessionById = async (
 		.executeTakeFirst();
 };
 
-export const createSession = async (
+export const createOrUpdateSession = async (
 	db: DbInstance,
 	id: string,
 	expiry: Date,
@@ -30,6 +30,13 @@ export const createSession = async (
 			user_id: <UsersId>session.user_id,
 			cookie: session.cookie,
 		})
+		.onConflict((oc) =>
+			oc.column("id").doUpdateSet({
+				expiry,
+				user_id: <UsersId>session.user_id,
+				cookie: session.cookie,
+			}),
+		)
 		.execute();
 };
 
