@@ -1,9 +1,10 @@
-import { HttpStatus, type LoginBody } from "@scr4m/common";
-import { useMutation } from "@tanstack/react-query";
+import { HttpStatus, LoginReturnSchema, type LoginBody } from "@scr4m/common";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { apiPost, isFetchError } from "../api";
 import { GoogleLogin } from "../components/GoogleLogin";
 import { AuthLayout } from "../components/layout/AuthLayout";
+import { ME_QUERY_KEY } from "../auth";
 
 const LoginError = (props: { error: unknown }) => {
 	if (!isFetchError(props.error)) {
@@ -21,12 +22,15 @@ const LoginError = (props: { error: unknown }) => {
 };
 
 const LoginRoute = () => {
+	const queryClient = useQueryClient();
+
 	const loginMutation = useMutation({
 		mutationFn: async (body: LoginBody) => {
-			return apiPost("/api/auth/login", body);
+			const data = await apiPost("/api/auth/login", body);
+			return LoginReturnSchema.parse(data);
 		},
-		onSuccess: () => {
-			alert("Login successful!");
+		onSuccess: (data) => {
+			queryClient.setQueryData(ME_QUERY_KEY, data);
 		},
 	});
 

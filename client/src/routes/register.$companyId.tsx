@@ -1,9 +1,10 @@
 import { HttpStatus, type RegisterBody } from "@scr4m/common";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { apiPost, isFetchError } from "../api";
 import { GoogleLogin } from "../components/GoogleLogin";
 import { AuthLayout } from "../components/layout/AuthLayout";
+import { ME_QUERY_KEY } from "../auth";
 
 const RegisterError = (props: { error: unknown }) => {
 	if (!isFetchError(props.error)) {
@@ -35,12 +36,13 @@ const RegisterError = (props: { error: unknown }) => {
 const RegisterRoute = () => {
 	const { companyId } = Route.useParams();
 
+	const queryClient = useQueryClient();
 	const registerMutation = useMutation({
 		mutationFn: async (body: RegisterBody) => {
 			return apiPost(`/api/auth/register/${companyId}`, body);
 		},
-		onSuccess: () => {
-			alert("Register successful!");
+		onSuccess: (data) => {
+			queryClient.setQueryData(ME_QUERY_KEY, data);
 		},
 	});
 

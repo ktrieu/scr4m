@@ -1,0 +1,43 @@
+import type { User } from "@scr4m/common/user";
+import { MeReturnSchema } from "@scr4m/common/routes/me";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import { apiGet, isFetchError } from "../api";
+
+type AuthContext = {
+	user: User | null;
+};
+
+const authContext = React.createContext<AuthContext>({
+	user: null,
+});
+
+export const ME_QUERY_KEY = ["auth", "me"];
+
+export const AuthProvider = (props: { children?: React.ReactNode }) => {
+	const { data } = useQuery({
+		initialData: null,
+		queryKey: ME_QUERY_KEY,
+		queryFn: async () => {
+			try {
+				const result = await apiGet("/api/auth/me");
+				return MeReturnSchema.parse(result);
+			} catch (e) {
+				console.log(e);
+				if (isFetchError(e) && e.status === 401) {
+					// 401 unauthorized means we're not logged in.
+					return null;
+				}
+
+				throw e;
+			}
+		},
+	});
+
+	return (
+		<authContext.Provider value={{ user: data }}>
+			<pre>{JSON.stringify(data)}</pre>
+			{props.children}
+		</authContext.Provider>
+	);
+};
