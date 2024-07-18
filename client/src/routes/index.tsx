@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useAuthContext } from "../auth";
 
 const Index = () => {
@@ -12,6 +12,6 @@ const Index = () => {
 	);
 };
 
-export const Route = createLazyFileRoute("/")({
+export const Route = createFileRoute("/")({
 	component: Index,
 });

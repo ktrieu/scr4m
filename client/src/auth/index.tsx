@@ -25,7 +25,6 @@ export const AuthProvider = (props: { children?: React.ReactNode }) => {
 				const result = await apiGet("/api/auth/me");
 				return MeReturnSchema.parse(result);
 			} catch (e) {
-				console.log(e);
 				if (isFetchError(e) && e.status === 401) {
 					// 401 unauthorized means we're not logged in.
 					return null;
