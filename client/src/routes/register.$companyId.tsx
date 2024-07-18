@@ -1,4 +1,8 @@
-import { HttpStatus, type RegisterBody } from "@scr4m/common";
+import {
+	HttpStatus,
+	RegisterReturnSchema,
+	type RegisterBody,
+} from "@scr4m/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
 	Link,
@@ -45,7 +49,8 @@ const RegisterRoute = () => {
 	const queryClient = useQueryClient();
 	const registerMutation = useMutation({
 		mutationFn: async (body: RegisterBody) => {
-			return apiPost(`/api/auth/register/${companyId}`, body);
+			const data = await apiPost(`/api/auth/register/${companyId}`, body);
+			return RegisterReturnSchema.parse(data);
 		},
 		onSuccess: (data) => {
 			queryClient.setQueryData(ME_QUERY_KEY, data);
