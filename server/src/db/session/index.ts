@@ -12,7 +12,7 @@ export const getSessionById = async (
 		.selectFrom("sessions")
 		.selectAll()
 		.where("id", "=", <SessionsId>id)
-		.where("expiry", "<", expiresBefore)
+		.where("expiry", ">", expiresBefore)
 		.executeTakeFirst();
 };
 
