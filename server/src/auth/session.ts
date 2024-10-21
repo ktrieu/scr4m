@@ -1,15 +1,15 @@
 import type { FastifySessionOptions, SessionStore } from "@fastify/session";
-import type { Kysely } from "kysely";
-import { ENV_CONFIG } from "../env.js";
-import type Database from "../schemas/Database.js";
 import type { Session } from "fastify";
+import type { Kysely } from "kysely";
 import {
 	createOrUpdateSession,
 	deleteSession,
 	getSessionById,
 } from "../db/session/index.js";
-import type { Users } from "../schemas/public/Users.js";
 import { getUserById } from "../db/user/index.js";
+import { ENV_CONFIG } from "../env.js";
+import type Database from "../schemas/Database.js";
+import type { Users } from "../schemas/public/Users.js";
 
 declare module "fastify" {
 	interface Session {

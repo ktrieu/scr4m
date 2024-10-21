@@ -1,10 +1,10 @@
-import { HttpStatus, LoginReturnSchema, type LoginBody } from "@scr4m/common";
+import { HttpStatus, type LoginBody, LoginReturnSchema } from "@scr4m/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Navigate, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { apiPost, isFetchError } from "../api";
+import { ME_QUERY_KEY, useAuthContext } from "../auth";
 import { GoogleLogin } from "../components/GoogleLogin";
 import { AuthLayout } from "../components/layout/AuthLayout";
-import { ME_QUERY_KEY, useAuthContext } from "../auth";
 
 const LoginError = (props: { error: unknown }) => {
 	if (!isFetchError(props.error)) {

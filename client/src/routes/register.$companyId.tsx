@@ -1,7 +1,7 @@
 import {
 	HttpStatus,
-	RegisterReturnSchema,
 	type RegisterBody,
+	RegisterReturnSchema,
 } from "@scr4m/common";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -11,9 +11,9 @@ import {
 	useNavigate,
 } from "@tanstack/react-router";
 import { apiPost, isFetchError } from "../api";
+import { ME_QUERY_KEY, useAuthContext } from "../auth";
 import { GoogleLogin } from "../components/GoogleLogin";
 import { AuthLayout } from "../components/layout/AuthLayout";
-import { ME_QUERY_KEY, useAuthContext } from "../auth";
 
 const RegisterError = (props: { error: unknown }) => {
 	if (!isFetchError(props.error)) {

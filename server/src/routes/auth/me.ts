@@ -1,6 +1,6 @@
 import { MeReturnSchema, MeUnauthorizedSchema } from "@scr4m/common";
-import type { FastifyApp } from "../../index.js";
 import { getUserFromSession } from "../../auth/session.js";
+import type { FastifyApp } from "../../index.js";
 
 export const registerMeRoute = (fastify: FastifyApp) => {
 	fastify.get(

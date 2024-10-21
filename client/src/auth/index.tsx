@@ -1,5 +1,5 @@
-import type { User } from "@scr4m/common/user";
 import { MeReturnSchema } from "@scr4m/common/routes/me";
+import type { User } from "@scr4m/common/user";
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { apiGet, isFetchError } from "../api";
