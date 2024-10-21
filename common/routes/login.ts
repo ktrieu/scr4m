@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { UserSchema } from "../user.js";
 
 export const LoginBodySchema = z.object({
 	token: z.string(),
@@ -6,11 +7,7 @@ export const LoginBodySchema = z.object({
 
 export type LoginBody = z.infer<typeof LoginBodySchema>;
 
-export const LoginReturnSchema = z.object({
-	id: z.number(),
-	company_id: z.number(),
-	email: z.string(),
-});
+export const LoginReturnSchema = UserSchema;
 
 export const LoginUnauthorizedSchema = z.object({
 	code: z.enum(["SCR4M_unauthorized"]),

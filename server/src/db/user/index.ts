@@ -1,4 +1,4 @@
-import type { NewUsers, Users } from "../../schemas/public/Users.js";
+import type { NewUsers, Users, UsersId } from "../../schemas/public/Users.js";
 import type { DbInstance } from "../index.js";
 
 export const getUserByGoogleSubject = async (
@@ -23,4 +23,17 @@ export const createUser = async (
 		.values(fields)
 		.returningAll()
 		.executeTakeFirstOrThrow();
+};
+
+export const getUserById = async (
+	db: DbInstance,
+	id: number,
+): Promise<Users | null> => {
+	const user = await db
+		.selectFrom("users")
+		.selectAll()
+		.where("id", "=", <UsersId>id)
+		.executeTakeFirst();
+
+	return user ?? null;
 };

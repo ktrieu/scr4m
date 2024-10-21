@@ -9,7 +9,8 @@
 		"dev": "nodemon",
 		"build": "tsc",
 		"start": "node dist/index.js",
-		"migrate": "node dist/migrate.js"
+		"migrate": "node dist/migrate.js",
+		"rollback": "node dist/migration-rollback.js"
 	},
 	"devDependencies": {
 		"@dotenvx/dotenvx": "^0.44.0",
@@ -21,6 +22,8 @@
 		"typescript": "^5.4.5"
 	},
 	"dependencies": {
+		"@fastify/cookie": "^9.3.1",
+		"@fastify/session": "^10.9.0",
 		"@scr4m/common": "workspace:*",
 		"fastify": "^4.27.0",
 		"fastify-plugin": "^4.5.1",

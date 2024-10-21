@@ -51,6 +51,8 @@ export const registerRegisterRoute = (fastify: FastifyApp) => {
 				google_sub: payload.sub,
 			});
 
+			request.session.user_id = newUser.id;
+
 			return reply.code(200).send(newUser);
 		},
 	);

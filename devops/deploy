@@ -17,7 +17,7 @@ echo "Pulling containers..."
 compose_prod pull
 
 echo "Running migrations..."
-compose_prod run server npm run migrate
+compose_prod run server pnpm --filter server migrate
 
 echo "Stopping existing services..."
 compose_prod down

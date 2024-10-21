@@ -1,8 +1,7 @@
 import fp from "fastify-plugin";
-import { Kysely } from "kysely";
 
 import type { FastifyPluginCallback } from "fastify";
-import { createPostgresDialect } from "./db/index.js";
+import type { Kysely } from "kysely";
 import type Database from "./schemas/Database.js";
 
 declare module "fastify" {
@@ -11,13 +10,13 @@ declare module "fastify" {
 	}
 }
 
-const pluginCallback: FastifyPluginCallback = (fastify, opts, done) => {
-	const dialect = createPostgresDialect();
+const createPluginCallback = (db: Kysely<Database>): FastifyPluginCallback => {
+	return (fastify, opts, done) => {
+		fastify.decorate("db", db);
 
-	const db = new Kysely<Database>({ dialect });
-	fastify.decorate("db", db);
-
-	done();
+		done();
+	};
 };
 
-export const kyselyPlugin = fp(pluginCallback);
+export const createKyselyPlugin = (db: Kysely<Database>) =>
+	fp(createPluginCallback(db));
