@@ -22,11 +22,11 @@ jobs:
           username: ${{ vars.GITLAB_REGISTRY_EMAIL }}
           password: ${{ secrets.GITLAB_REGISTRY_TOKEN }}
       - name: Build Docker images
-        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml build
         env:
           IMAGE_VERSION: ${{ github.ref_name }}
           VITE_GOOGLE_CLIENT_ID: ${{ vars.VITE_GOOGLE_CLIENT_ID }}
       - name: Push Docker images
-        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml push
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml push
         env:
             IMAGE_VERSION: ${{ github.ref_name }}
