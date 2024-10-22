@@ -1,4 +1,4 @@
-import type { Kysely } from "kysely";
+import { sql, type Kysely } from "kysely";
 
 export async function up(db: Kysely<any>) {
 	await db.schema
@@ -54,12 +54,18 @@ export async function up(db: Kysely<any>) {
 		.execute();
 
 	await db.schema
+		.createType("scrum_entry_type")
+		.asEnum(["todo", "did", "done"])
+		.execute();
+
+	await db.schema
 		.createTable("scrum_entries")
 		.addColumn("id", "integer", (col) =>
 			col.primaryKey().generatedAlwaysAsIdentity(),
 		)
 		.addColumn("body", "text", (col) => col.notNull())
 		.addColumn("order", "integer", (col) => col.notNull())
+		.addColumn("type", sql`scrum_entry_type`, (col) => col.notNull())
 		.addColumn("member_id", "integer", (col) => col.notNull())
 		.addForeignKeyConstraint(
 			"scrum_entries_members_foreign_key",
@@ -90,6 +96,7 @@ export async function up(db: Kysely<any>) {
 
 export async function down(db: Kysely<any>) {
 	await db.schema.dropIndex("scrum_entries_company_id_idx").execute();
+	await db.schema.dropType("scrum_entry_type").execute();
 	await db.schema.dropTable("scrum_entries").execute();
 	await db.schema.dropIndex("scrum_members_company_id_idx").execute();
 	await db.schema.dropTable("scrum_members").execute();
