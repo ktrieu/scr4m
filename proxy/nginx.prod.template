@@ -4,10 +4,11 @@ server {
     server_name scr4m.ugo-ii.com;
     ssl_certificate /cert/fullchain.pem;
     ssl_certificate_key /cert/privkey.pem;
-    
+
     location / {
         root /var/www/html/client;
         index index.html;
+        try_files $uri $uri/ /index.html =404;
     }
 
     location /api/ {
