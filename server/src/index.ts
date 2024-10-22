@@ -16,6 +16,7 @@ import type Database from "./schemas/Database.js";
 
 const fastify = Fastify({
 	logger: true,
+	trustProxy: true,
 });
 
 fastify.setValidatorCompiler(validatorCompiler);
