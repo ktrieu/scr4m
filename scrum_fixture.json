@@ -5,27 +5,27 @@
 	"members": [
 		{
 			"id": 1,
-			"todids": ["1die?"],
-			"dids": ["1died"],
-			"todos": ["1die"]
+			"todids": ["1die?", "1die?!"],
+			"dids": ["1died", "1died!"],
+			"todos": ["1die", "1die!"]
 		},
 		{
 			"id": 2,
-			"todids": ["2die?"],
-			"dids": ["2died"],
-			"todos": ["2die"]
+			"todids": ["2die?", "2die?!"],
+			"dids": ["2died", "2died!"],
+			"todos": ["2die", "2die!"]
 		},
 		{
 			"id": 3,
-			"todids": ["3die?"],
-			"dids": ["3died"],
-			"todos": ["3die"]
+			"todids": ["3die?", "3die?!"],
+			"dids": ["3died", "3died!"],
+			"todos": ["3die", "3die!"]
 		},
 		{
 			"id": 4,
-			"todids": ["4die?"],
-			"dids": ["4died"],
-			"todos": ["4die"]
+			"todids": ["4die?", "4die?!"],
+			"dids": ["4died", "4died!"],
+			"todos": ["4die", "4die!"]
 		}
 	],
 	"companyId": 1

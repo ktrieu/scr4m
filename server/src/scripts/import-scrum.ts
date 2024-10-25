@@ -1,14 +1,14 @@
 import { z } from "zod";
 
-import { json } from "node:stream/consumers";
-import { createPostgresDialect, type DbInstance } from "../db/index.js";
-import { Kysely } from "kysely";
-import type Database from "../schemas/Database.js";
 import { exit } from "node:process";
+import { json } from "node:stream/consumers";
+import { Kysely } from "kysely";
+import { type DbInstance, createPostgresDialect } from "../db/index.js";
+import type Database from "../schemas/Database.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
+import type ScrumEntryType from "../schemas/public/ScrumEntryType.js";
 import type { ScrumMembersId } from "../schemas/public/ScrumMembers.js";
 import type { ScrumsId } from "../schemas/public/Scrums.js";
-import type ScrumEntryType from "../schemas/public/ScrumEntryType.js";
 
 const MEMBER_SCHEMA = z.object({
 	id: z.number().positive(),
@@ -27,14 +27,17 @@ const SCRUM_SCHEMA = z.object({
 
 const rowFromEntry = (
 	body: string,
-	companyId: CompaniesId,
+	memberId: ScrumMembersId,
 	scrumId: ScrumsId,
 	type: ScrumEntryType,
+	order: number,
 ) => {
 	return {
-		company_id: companyId,
+		member_id: memberId,
 		scrum_id: scrumId,
-		ty: type,
+		type,
+		body,
+		order,
 	};
 };
 
@@ -77,7 +80,7 @@ const main = async () => {
 	}
 
 	db.transaction().execute(async (tx) => {
-		const { id: scrumId } = await db
+		const { id: scrumId } = await tx
 			.insertInto("scrums")
 			.values({
 				company_id: <CompaniesId>scrum.companyId,
@@ -86,12 +89,29 @@ const main = async () => {
 				title: scrum.name,
 			})
 			.returning("id")
-			.executeTakeFirst();
+			.executeTakeFirstOrThrow();
 
-		const entries = [];
+		const entries: Array<ReturnType<typeof rowFromEntry>> = [];
 
 		for (const m of scrum.members) {
+			m.todos.forEach((body, i) => {
+				entries.push(
+					rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "todo", i),
+				);
+			});
+			m.dids.forEach((body, i) => {
+				entries.push(
+					rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "did", i),
+				);
+			});
+			m.todids.forEach((body, i) => {
+				entries.push(
+					rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "todid", i),
+				);
+			});
 		}
+
+		await tx.insertInto("scrum_entries").values(entries).execute();
 	});
 };
 
