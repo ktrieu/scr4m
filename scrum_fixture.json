@@ -1,0 +1,32 @@
+{
+	"name": "test",
+	"number": 100,
+	"createdAt": "2024-01-01T12:00:00Z",
+	"members": [
+		{
+			"id": 1,
+			"todids": ["1die?"],
+			"dids": ["1died"],
+			"todos": ["1die"]
+		},
+		{
+			"id": 2,
+			"todids": ["2die?"],
+			"dids": ["2died"],
+			"todos": ["2die"]
+		},
+		{
+			"id": 3,
+			"todids": ["3die?"],
+			"dids": ["3died"],
+			"todos": ["3die"]
+		},
+		{
+			"id": 4,
+			"todids": ["4die?"],
+			"dids": ["4died"],
+			"todos": ["4die"]
+		}
+	],
+	"companyId": 1
+}
