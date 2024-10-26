@@ -12,7 +12,6 @@ import type { ScrumsId } from "../schemas/public/Scrums.js";
 
 const MEMBER_SCHEMA = z.object({
 	id: z.number().positive(),
-	todids: z.array(z.string()),
 	dids: z.array(z.string()),
 	todos: z.array(z.string()),
 });
@@ -102,11 +101,6 @@ const main = async () => {
 			m.dids.forEach((body, i) => {
 				entries.push(
 					rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "did", i),
-				);
-			});
-			m.todids.forEach((body, i) => {
-				entries.push(
-					rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "todid", i),
 				);
 			});
 		}
