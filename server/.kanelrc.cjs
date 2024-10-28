@@ -41,4 +41,5 @@ module.exports = {
 
 	preRenderHooks: [makeKyselyHook()],
 	postRenderHooks: [verbatimModuleSyntaxHook],
+	enumStyle: "type",
 };

@@ -1,8 +1,4 @@
 /** Represents the enum public.scrum_entry_type */
-enum ScrumEntryType {
-	todo = "todo",
-	did = "did",
-	todid = "todid",
-}
+type ScrumEntryType = "todo" | "did" | "todid";
 
 export type { ScrumEntryType as default };
