@@ -1,15 +1,15 @@
 import { z } from "zod";
 
 import { exit } from "node:process";
+import { createInterface } from "node:readline";
 import { Kysely, type Transaction } from "kysely";
-import { createPostgresDialect, type DbInstance } from "../db/index.js";
+import { type DbInstance, createPostgresDialect } from "../db/index.js";
+import type Database from "../schemas/Database.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
+import type PublicSchema from "../schemas/public/PublicSchema.js";
 import type ScrumEntryType from "../schemas/public/ScrumEntryType.js";
 import type { ScrumMembersId } from "../schemas/public/ScrumMembers.js";
 import type { ScrumsId } from "../schemas/public/Scrums.js";
-import { createInterface } from "node:readline";
-import type PublicSchema from "../schemas/public/PublicSchema.js";
-import type Database from "../schemas/Database.js";
 
 const MEMBER_SCHEMA = z.object({
 	id: z.number().positive(),
