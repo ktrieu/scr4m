@@ -1,14 +1,15 @@
 import { z } from "zod";
 
 import { exit } from "node:process";
-import { json } from "node:stream/consumers";
-import { Kysely } from "kysely";
-import { type DbInstance, createPostgresDialect } from "../db/index.js";
-import type Database from "../schemas/Database.js";
+import { Kysely, type Transaction } from "kysely";
+import { createPostgresDialect, type DbInstance } from "../db/index.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
 import type ScrumEntryType from "../schemas/public/ScrumEntryType.js";
 import type { ScrumMembersId } from "../schemas/public/ScrumMembers.js";
 import type { ScrumsId } from "../schemas/public/Scrums.js";
+import { createInterface } from "node:readline";
+import type PublicSchema from "../schemas/public/PublicSchema.js";
+import type Database from "../schemas/Database.js";
 
 const MEMBER_SCHEMA = z.object({
 	id: z.number().positive(),
@@ -19,7 +20,7 @@ const MEMBER_SCHEMA = z.object({
 const SCRUM_SCHEMA = z.object({
 	name: z.string(),
 	number: z.number().positive(),
-	createdAt: z.string().datetime(),
+	createdAt: z.string().datetime({ offset: true }),
 	members: z.array(MEMBER_SCHEMA),
 	companyId: z.number(),
 });
@@ -40,21 +41,18 @@ const rowFromEntry = (
 	};
 };
 
-const main = async () => {
-	const stdinJson = await json(process.stdin);
-	const { success, error, data: scrum } = SCRUM_SCHEMA.safeParse(stdinJson);
+const insertScrumLine = async (line: string, tx: Transaction<PublicSchema>) => {
+	const parsed = JSON.parse(line);
+	const { success, error, data: scrum } = SCRUM_SCHEMA.safeParse(parsed);
 	if (!success) {
 		console.error("Invalid JSON format.");
 		console.error(error.format());
+		console.error(parsed);
 		exit(1);
 	}
 
-	const db: DbInstance = new Kysely<Database>({
-		dialect: createPostgresDialect(),
-	});
-
 	// Validate company/member IDs:
-	const company = await db
+	const company = await tx
 		.selectFrom("companies")
 		.select("id")
 		.where("id", "=", <CompaniesId>scrum.companyId)
@@ -65,7 +63,7 @@ const main = async () => {
 	}
 
 	for (const m of scrum.members) {
-		const member = await db
+		const member = await tx
 			.selectFrom("scrum_members")
 			.select("id")
 			.where("company_id", "=", <CompaniesId>scrum.companyId)
@@ -78,34 +76,46 @@ const main = async () => {
 		}
 	}
 
-	db.transaction().execute(async (tx) => {
-		const { id: scrumId } = await tx
-			.insertInto("scrums")
-			.values({
-				company_id: <CompaniesId>scrum.companyId,
-				created_at: scrum.createdAt,
-				scrum_number: scrum.number,
-				title: scrum.name,
-			})
-			.returning("id")
-			.executeTakeFirstOrThrow();
+	const { id: scrumId } = await tx
+		.insertInto("scrums")
+		.values({
+			company_id: <CompaniesId>scrum.companyId,
+			created_at: scrum.createdAt,
+			scrum_number: scrum.number,
+			title: scrum.name,
+		})
+		.returning("id")
+		.executeTakeFirstOrThrow();
 
-		const entries: Array<ReturnType<typeof rowFromEntry>> = [];
+	const entries: Array<ReturnType<typeof rowFromEntry>> = [];
 
-		for (const m of scrum.members) {
-			m.todos.forEach((body, i) => {
-				entries.push(
-					rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "todo", i),
-				);
-			});
-			m.dids.forEach((body, i) => {
-				entries.push(
-					rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "did", i),
-				);
-			});
-		}
+	for (const m of scrum.members) {
+		m.todos.forEach((body, i) => {
+			entries.push(
+				rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "todo", i),
+			);
+		});
+		m.dids.forEach((body, i) => {
+			entries.push(rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "did", i));
+		});
+	}
 
+	// Calling Kysely insert with zero-length array causes a crash.
+	if (entries.length !== 0) {
 		await tx.insertInto("scrum_entries").values(entries).execute();
+	}
+};
+
+const main = async () => {
+	const db: DbInstance = new Kysely<Database>({
+		dialect: createPostgresDialect(),
+	});
+
+	await db.transaction().execute(async (tx) => {
+		const rl = createInterface(process.stdin);
+		for await (const l of rl) {
+			await insertScrumLine(l, tx);
+		}
 	});
 };
 

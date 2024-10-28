@@ -2,6 +2,7 @@ import csv
 import sys
 import datetime
 import json
+import zoneinfo
 
 MEMBER_IDS = [
     4,
@@ -12,6 +13,8 @@ MEMBER_IDS = [
     6
 ]
 COMPANY_ID = 1
+
+EASTERN_TIME = zoneinfo.ZoneInfo('America/Toronto')
 
 def split_bullets(str):
     lines = str.split('\n')
@@ -26,7 +29,7 @@ def convert(csv):
 
     for l in csv:
         number = l[1]
-        created = datetime.datetime.fromisoformat(l[2])
+        created = datetime.datetime.strptime(l[2], '%Y-%m-%d %H:%M:%S').replace(tzinfo=EASTERN_TIME)
 
         name = l[21]
 
@@ -47,7 +50,7 @@ def convert(csv):
 
         scrum_obj = {
             'name': name,
-            'number': number,
+            'number': int(number),
             'createdAt': created.isoformat(),
             'companyId': COMPANY_ID,
             'members': members,
