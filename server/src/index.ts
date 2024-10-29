@@ -13,6 +13,7 @@ import { ENV_CONFIG } from "./env.js";
 import { createKyselyPlugin } from "./kysely-plugin.js";
 import { registerAuthRoutes } from "./routes/auth/index.js";
 import type Database from "./schemas/Database.js";
+import { registerScrumRoutes } from "./routes/scrum/index.js";
 
 const fastify = Fastify({
 	logger: true,
@@ -34,5 +35,6 @@ const app = fastify
 export type FastifyApp = typeof app;
 
 registerAuthRoutes(app);
+registerScrumRoutes(app);
 
 fastify.listen({ port: ENV_CONFIG.PORT, host: "0.0.0.0" });
