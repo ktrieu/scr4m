@@ -1,4 +1,5 @@
 import {
+	type ScrumListObject,
 	type ScrumListReturn,
 	ScrumListReturnSchema,
 	ScrumQuerySchema,
@@ -33,10 +34,11 @@ export const registerScrumListRoute = (fastify: FastifyApp) => {
 				after,
 			);
 
-			const apiScrums = dbScrums.map((s) => ({
+			const apiScrums: Array<ScrumListObject> = dbScrums.map((s) => ({
 				number: s.scrum_number,
 				createdAt: s.created_at.toISOString(),
 				title: s.title,
+				id: s.id,
 			}));
 
 			return {
