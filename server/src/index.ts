@@ -12,8 +12,8 @@ import { createPostgresDialect } from "./db/index.js";
 import { ENV_CONFIG } from "./env.js";
 import { createKyselyPlugin } from "./kysely-plugin.js";
 import { registerAuthRoutes } from "./routes/auth/index.js";
-import type Database from "./schemas/Database.js";
 import { registerScrumRoutes } from "./routes/scrum/index.js";
+import type Database from "./schemas/Database.js";
 
 const fastify = Fastify({
 	logger: true,

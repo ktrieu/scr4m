@@ -4,13 +4,13 @@ import {
 	type ScrumGetResponse,
 	ScrumGetResponseSchema,
 } from "@scr4m/common";
-import type { FastifyApp } from "../../index.js";
 import { getUserFromSession } from "../../auth/session.js";
 import {
 	getMembersForCompany,
 	getOrderedEntriesForScrum,
 	getScrumById,
 } from "../../db/scrum/index.js";
+import type { FastifyApp } from "../../index.js";
 import type { ScrumsId } from "../../schemas/public/Scrums.js";
 
 export const registerScrumGetRoute = (fastify: FastifyApp) => {

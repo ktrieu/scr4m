@@ -4,10 +4,10 @@ import {
 	ScrumListReturnSchema,
 	ScrumQuerySchema,
 } from "@scr4m/common";
-import type { FastifyApp } from "../../index.js";
 import { z } from "zod";
 import { getUserFromSession } from "../../auth/session.js";
 import { getScrumsForCompany } from "../../db/scrum/index.js";
+import type { FastifyApp } from "../../index.js";
 
 export const registerScrumListRoute = (fastify: FastifyApp) => {
 	fastify.get(
