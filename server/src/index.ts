@@ -12,6 +12,7 @@ import { createPostgresDialect } from "./db/index.js";
 import { ENV_CONFIG } from "./env.js";
 import { createKyselyPlugin } from "./kysely-plugin.js";
 import { registerAuthRoutes } from "./routes/auth/index.js";
+import { registerScrumRoutes } from "./routes/scrum/index.js";
 import type Database from "./schemas/Database.js";
 
 const fastify = Fastify({
@@ -34,5 +35,6 @@ const app = fastify
 export type FastifyApp = typeof app;
 
 registerAuthRoutes(app);
+registerScrumRoutes(app);
 
 fastify.listen({ port: ENV_CONFIG.PORT, host: "0.0.0.0" });
