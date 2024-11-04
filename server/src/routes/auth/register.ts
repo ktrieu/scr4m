@@ -1,7 +1,9 @@
 import {
 	RegisterBadRequestSchema,
 	RegisterBodySchema,
+	RegisterInternalServerErrorSchema,
 	RegisterPathSchema,
+	RegisterReturn,
 	RegisterReturnSchema,
 	RegisterUnauthorizedSchema,
 } from "@scr4m/common";
@@ -9,6 +11,7 @@ import { verifyGoogleToken } from "../../auth/index.js";
 import { createUser, getUserByGoogleSubject } from "../../db/user/index.js";
 import type { FastifyApp } from "../../index.js";
 import type { CompaniesId } from "../../schemas/public/Companies.js";
+import { getCompanyById } from "../../db/company/index.js";
 
 export const registerRegisterRoute = (fastify: FastifyApp) => {
 	fastify.post(
@@ -21,10 +24,11 @@ export const registerRegisterRoute = (fastify: FastifyApp) => {
 					200: RegisterReturnSchema,
 					400: RegisterBadRequestSchema,
 					401: RegisterUnauthorizedSchema,
+					500: RegisterInternalServerErrorSchema,
 				},
 			},
 		},
-		async (request, reply) => {
+		async (request, reply): Promise<RegisterReturn> => {
 			const token = await verifyGoogleToken(request, request.body.token);
 			if (token === null) {
 				return reply.code(401).send({ code: "SCR4M_unauthorized" });
@@ -53,7 +57,17 @@ export const registerRegisterRoute = (fastify: FastifyApp) => {
 
 			request.session.user_id = newUser.id;
 
-			return reply.code(200).send(newUser);
+			const company = await getCompanyById(fastify.db, <CompaniesId>request.params.company_id);
+			if (!company) {
+				return reply.code(500).send({ code: 'SCR4M_company_not_found'});
+			}
+
+			return {
+				user: newUser,
+				company: {
+					name: company.name
+				}
+			}
 		},
 	);
 };

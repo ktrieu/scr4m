@@ -58,9 +58,9 @@ const RegisterRoute = () => {
 		},
 	});
 
-	const { user } = useAuthContext();
+	const { data } = useAuthContext();
 
-	if (user) {
+	if (data) {
 		return <Navigate to={"/"} />;
 	}
 
