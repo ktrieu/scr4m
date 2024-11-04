@@ -7,10 +7,10 @@ import { type DbInstance, createPostgresDialect } from "../db/index.js";
 import type Database from "../schemas/Database.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
 import type PublicSchema from "../schemas/public/PublicSchema.js";
+import type { NewScrumAttendances } from "../schemas/public/ScrumAttendances.js";
 import type ScrumEntryType from "../schemas/public/ScrumEntryType.js";
 import type { ScrumMembersId } from "../schemas/public/ScrumMembers.js";
 import type { ScrumsId } from "../schemas/public/Scrums.js";
-import { NewScrumAttendances, ScrumAttendances } from "../schemas/public/ScrumAttendances.js";
 
 const MEMBER_SCHEMA = z.object({
 	id: z.number().positive(),
@@ -106,8 +106,8 @@ const insertScrumLine = async (line: string, tx: Transaction<PublicSchema>) => {
 		if (m.present) {
 			attendances.push({
 				scrum_id: scrumId,
-				scrum_member_id: <ScrumMembersId>m.id
-			})
+				scrum_member_id: <ScrumMembersId>m.id,
+			});
 		}
 	}
 

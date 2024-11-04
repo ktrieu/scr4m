@@ -1,5 +1,5 @@
 import type { CompaniesId } from "../../schemas/public/Companies.js";
-import { ScrumAttendances } from "../../schemas/public/ScrumAttendances.js";
+import type { ScrumAttendances } from "../../schemas/public/ScrumAttendances.js";
 import type { ScrumEntries } from "../../schemas/public/ScrumEntries.js";
 import type { ScrumMembers } from "../../schemas/public/ScrumMembers.js";
 import type { Scrums, ScrumsId } from "../../schemas/public/Scrums.js";
@@ -56,10 +56,14 @@ export const getOrderedEntriesForScrum = async (
 
 export const getAttendanceForScrum = async (
 	db: DbInstance,
-	scrumId: ScrumsId
+	scrumId: ScrumsId,
 ): Promise<Array<ScrumAttendances>> => {
-	return db.selectFrom("scrum_attendances").selectAll().where("scrum_id", "=", scrumId).execute();
-}
+	return db
+		.selectFrom("scrum_attendances")
+		.selectAll()
+		.where("scrum_id", "=", scrumId)
+		.execute();
+};
 
 export const getMembersForCompany = async (
 	db: DbInstance,
