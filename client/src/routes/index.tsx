@@ -2,11 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useAuthContext } from "../auth";
 
 const Index = () => {
-	const { user } = useAuthContext();
+	const { data } = useAuthContext();
 
 	return (
 		<>
-			<pre>{JSON.stringify(user)}</pre>
+			<pre>{JSON.stringify(data)}</pre>
 			<p>Index</p>
 		</>
 	);

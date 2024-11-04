@@ -1,10 +1,13 @@
 import {
 	LoginBadRequestSchema,
 	LoginBodySchema,
+	LoginInternalServerErrorSchema,
+	type LoginReturn,
 	LoginReturnSchema,
 	LoginUnauthorizedSchema,
 } from "@scr4m/common";
 import { verifyGoogleToken } from "../../auth/index.js";
+import { getCompanyById } from "../../db/company/index.js";
 import { getUserByGoogleSubject } from "../../db/user/index.js";
 import type { FastifyApp } from "../../index.js";
 
@@ -18,10 +21,11 @@ export const registerLoginRoute = (fastify: FastifyApp) => {
 					200: LoginReturnSchema,
 					400: LoginBadRequestSchema,
 					401: LoginUnauthorizedSchema,
+					500: LoginInternalServerErrorSchema,
 				},
 			},
 		},
-		async (request, reply) => {
+		async (request, reply): Promise<LoginReturn> => {
 			const token = await verifyGoogleToken(request, request.body.token);
 			if (token === null) {
 				return reply.code(401).send({ code: "SCR4M_unauthorized" });
@@ -39,7 +43,17 @@ export const registerLoginRoute = (fastify: FastifyApp) => {
 
 			request.session.user_id = user.id;
 
-			return user;
+			const company = await getCompanyById(fastify.db, user.company_id);
+			if (!company) {
+				return reply.code(500).send({ code: "SCR4M_company_not_found" });
+			}
+
+			return {
+				user,
+				company: {
+					name: company.name,
+				},
+			};
 		},
 	);
 };
