@@ -43,9 +43,9 @@ services:
       POSTGRES_USER: ${PSQL_USERNAME}
       POSTGRES_PASSWORD: ${PSQL_PASSWORD}
       POSTGRES_DB: ${PSQL_DB}
-      PGPORT: 5432
+      PGPORT: ${PSQL_PORT}
     ports:
-      - ${PSQL_PORT}:5432
+      - ${PSQL_PORT}:${PSQL_PORT}
     volumes:
      - psql-dev-data:/var/lib/postgresql/data
 
