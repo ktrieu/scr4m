@@ -17,6 +17,15 @@ def split_bullets(str):
     return list(filter(lambda l: l != "", trimmed))
 
 
+def parse_bool_string(str):
+    if str == "TRUE":
+        return True
+    elif str == "FALSE":
+        return False
+
+    raise RuntimeError(f"Invalid boolean {str}")
+
+
 def convert(csv):
     # Skip header row
     next(csv)
@@ -35,6 +44,7 @@ def convert(csv):
         for idx, id in enumerate(MEMBER_IDS):
             # Each per-member block is 3 columns long, starting at index 2.
             # Dids are the second item of each block, and todos, and todos are the third.
+            present_string = l[2 + (idx * 3) + 1]
             dids_string = l[2 + (idx * 3) + 2]
             todos_string = l[2 + (idx * 3) + 3]
 
@@ -43,6 +53,7 @@ def convert(csv):
                     "id": id,
                     "dids": split_bullets(dids_string),
                     "todos": split_bullets(todos_string),
+                    "present": parse_bool_string(present_string),
                 }
             )
 
