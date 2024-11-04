@@ -1,10 +1,10 @@
-import { MeReturn, MeReturnSchema } from "@scr4m/common/routes/me";
+import { type MeReturn, MeReturnSchema } from "@scr4m/common/routes/me";
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { apiGet, isFetchError } from "../api";
 
 type AuthContext = {
-	data: MeReturn | null
+	data: MeReturn | null;
 };
 
 const authContext = React.createContext<AuthContext>({ data: null });

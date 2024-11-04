@@ -2,14 +2,14 @@ import {
 	LoginBadRequestSchema,
 	LoginBodySchema,
 	LoginInternalServerErrorSchema,
-	LoginReturn,
+	type LoginReturn,
 	LoginReturnSchema,
 	LoginUnauthorizedSchema,
 } from "@scr4m/common";
 import { verifyGoogleToken } from "../../auth/index.js";
+import { getCompanyById } from "../../db/company/index.js";
 import { getUserByGoogleSubject } from "../../db/user/index.js";
 import type { FastifyApp } from "../../index.js";
-import { getCompanyById } from "../../db/company/index.js";
 
 export const registerLoginRoute = (fastify: FastifyApp) => {
 	fastify.post(
@@ -45,15 +45,15 @@ export const registerLoginRoute = (fastify: FastifyApp) => {
 
 			const company = await getCompanyById(fastify.db, user.company_id);
 			if (!company) {
-				return reply.code(500).send({ code: "SCR4M_company_not_found" })
+				return reply.code(500).send({ code: "SCR4M_company_not_found" });
 			}
 
 			return {
 				user,
 				company: {
 					name: company.name,
-				}
-			}
+				},
+			};
 		},
 	);
 };

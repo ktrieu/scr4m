@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { UserSchema } from "../user.js";
 import { MeReturnSchema } from "./me.js";
 
 export const RegisterBodySchema = z.object({
@@ -24,5 +23,5 @@ export const RegisterUnauthorizedSchema = z.object({
 });
 
 export const RegisterInternalServerErrorSchema = z.object({
-	code: z.enum(["SCR4M_company_not_found"])
-})
+	code: z.enum(["SCR4M_company_not_found"]),
+});

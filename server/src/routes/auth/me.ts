@@ -1,7 +1,12 @@
-import { MeInternalServerErrorSchema, MeReturn, MeReturnSchema, MeUnauthorizedSchema } from "@scr4m/common";
+import {
+	MeInternalServerErrorSchema,
+	type MeReturn,
+	MeReturnSchema,
+	MeUnauthorizedSchema,
+} from "@scr4m/common";
 import { getUserFromSession } from "../../auth/session.js";
-import type { FastifyApp } from "../../index.js";
 import { getCompanyById } from "../../db/company/index.js";
+import type { FastifyApp } from "../../index.js";
 
 export const registerMeRoute = (fastify: FastifyApp) => {
 	fastify.get(
@@ -24,7 +29,7 @@ export const registerMeRoute = (fastify: FastifyApp) => {
 
 			const company = await getCompanyById(fastify.db, user.company_id);
 			if (!company) {
-				return reply.code(500).send({ code: 'SCR4M_company_not_found'})
+				return reply.code(500).send({ code: "SCR4M_company_not_found" });
 			}
 
 			return {
@@ -34,9 +39,9 @@ export const registerMeRoute = (fastify: FastifyApp) => {
 					company_id: user.company_id,
 				},
 				company: {
-					name: company?.name
-				}
-			}
+					name: company?.name,
+				},
+			};
 		},
 	);
 };

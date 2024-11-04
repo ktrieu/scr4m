@@ -20,5 +20,5 @@ export const LoginBadRequestSchema = z.object({
 });
 
 export const LoginInternalServerErrorSchema = z.object({
-	code: z.enum(["SCR4M_company_not_found"])
-})
+	code: z.enum(["SCR4M_company_not_found"]),
+});
