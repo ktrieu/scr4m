@@ -7,6 +7,7 @@ import { type DbInstance, createPostgresDialect } from "../db/index.js";
 import type Database from "../schemas/Database.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
 import type PublicSchema from "../schemas/public/PublicSchema.js";
+import type { NewScrumAttendances } from "../schemas/public/ScrumAttendances.js";
 import type ScrumEntryType from "../schemas/public/ScrumEntryType.js";
 import type { ScrumMembersId } from "../schemas/public/ScrumMembers.js";
 import type { ScrumsId } from "../schemas/public/Scrums.js";
@@ -15,6 +16,7 @@ const MEMBER_SCHEMA = z.object({
 	id: z.number().positive(),
 	dids: z.array(z.string()),
 	todos: z.array(z.string()),
+	present: z.boolean(),
 });
 
 const SCRUM_SCHEMA = z.object({
@@ -89,6 +91,8 @@ const insertScrumLine = async (line: string, tx: Transaction<PublicSchema>) => {
 
 	const entries: Array<ReturnType<typeof rowFromEntry>> = [];
 
+	const attendances: Array<NewScrumAttendances> = [];
+
 	for (const m of scrum.members) {
 		m.todos.forEach((body, i) => {
 			entries.push(
@@ -98,11 +102,22 @@ const insertScrumLine = async (line: string, tx: Transaction<PublicSchema>) => {
 		m.dids.forEach((body, i) => {
 			entries.push(rowFromEntry(body, <ScrumMembersId>m.id, scrumId, "did", i));
 		});
+
+		if (m.present) {
+			attendances.push({
+				scrum_id: scrumId,
+				scrum_member_id: <ScrumMembersId>m.id,
+			});
+		}
 	}
 
 	// Calling Kysely insert with zero-length array causes a crash.
 	if (entries.length !== 0) {
 		await tx.insertInto("scrum_entries").values(entries).execute();
+	}
+
+	if (attendances.length !== 0) {
+		await tx.insertInto("scrum_attendances").values(attendances).execute();
 	}
 };
 

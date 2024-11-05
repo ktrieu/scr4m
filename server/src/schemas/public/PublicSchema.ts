@@ -1,6 +1,7 @@
 import type CompaniesTable from "./Companies.js";
 import type KyselyMigrationTable from "./KyselyMigration.js";
 import type KyselyMigrationLockTable from "./KyselyMigrationLock.js";
+import type ScrumAttendancesTable from "./ScrumAttendances.js";
 import type ScrumEntriesTable from "./ScrumEntries.js";
 import type ScrumMembersTable from "./ScrumMembers.js";
 import type ScrumsTable from "./Scrums.js";
@@ -23,4 +24,6 @@ export default interface PublicSchema {
 	scrum_members: ScrumMembersTable;
 
 	scrum_entries: ScrumEntriesTable;
+
+	scrum_attendances: ScrumAttendancesTable;
 }

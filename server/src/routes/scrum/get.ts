@@ -6,6 +6,7 @@ import {
 } from "@scr4m/common";
 import { getUserFromSession } from "../../auth/session.js";
 import {
+	getAttendanceForScrum,
 	getMembersForCompany,
 	getOrderedEntriesForScrum,
 	getScrumById,
@@ -48,11 +49,11 @@ export const registerScrumGetRoute = (fastify: FastifyApp) => {
 					name: m.name,
 					dids: [],
 					todos: [],
+					present: false,
 				};
 			}
 
 			const entries = await getOrderedEntriesForScrum(fastify.db, scrum.id);
-
 			for (const e of entries) {
 				const member = membersMap[e.member_id];
 
@@ -67,6 +68,12 @@ export const registerScrumGetRoute = (fastify: FastifyApp) => {
 						// TODO: Todids are just last scrum's todos, I don't even know why I included them as a database type.
 						break;
 				}
+			}
+
+			const attendances = await getAttendanceForScrum(fastify.db, scrum.id);
+			for (const a of attendances) {
+				const member = membersMap[a.scrum_member_id];
+				member.present = true;
 			}
 
 			const memberList = Array.from(Object.values(membersMap));

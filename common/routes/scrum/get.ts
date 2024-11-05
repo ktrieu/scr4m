@@ -5,6 +5,7 @@ const ScrumGetMemberSchema = z.object({
 	name: z.string(),
 	todos: z.array(z.string()),
 	dids: z.array(z.string()),
+	present: z.boolean(),
 });
 
 export type ScrumGetMember = z.infer<typeof ScrumGetMemberSchema>;
