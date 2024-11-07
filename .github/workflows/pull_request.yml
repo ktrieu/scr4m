@@ -20,4 +20,4 @@ jobs:
       - name: Typecheck
         run: pnpm run -r tscheck
       - name: Run Biome
-        run: biome ci .
+        run: pnpm run biome:check

@@ -9,6 +9,7 @@
 		"@biomejs/biome": "^1.8.2"
 	},
 	"scripts": {
-		"check": "biome check --fix ."
+		"biome:fix": "biome check --fix .",
+		"biome:check": "biome check ."
 	}
 }
