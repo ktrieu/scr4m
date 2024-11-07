@@ -50,7 +50,7 @@ export const ScrumSidebar = () => {
 	});
 
 	return (
-		<div className="h-full overflow-y-scroll w-80 border-r-primary border-2 bg-white">
+		<div className="h-full overflow-y-scroll w-80 border-r-primary border-r-2 bg-white">
 			{data.scrums.map((scrum) => (
 				<ScrumSidebarItem key={scrum.id} scrum={scrum} />
 			))}
