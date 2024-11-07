@@ -20,5 +20,5 @@ export const ScrumGetResponseSchema = z.object({
 export type ScrumGetResponse = z.infer<typeof ScrumGetResponseSchema>;
 
 export const ScrumGetParamsSchema = z.object({
-	id: z.coerce.number().int().positive(),
+	number: z.coerce.number().int().positive(),
 });

@@ -16,10 +16,8 @@ const formatScrumDate = (scrumDateStr: string) => {
 const ScrumSidebarItem = (props: ScrumSidebarItemProps) => {
 	const { title, number, submittedAt } = props.scrum;
 
-	const url = `/scrums/${number}`;
-
 	return (
-		<Link to={url}>
+		<Link to="/scrums/$number" params={{ number: number.toString() }}>
 			<div className="p-3 hover:bg-secondary">
 				<div className="flex justify-between align-bottom">
 					<h3 className="text-lg mb-0">#{number}</h3>

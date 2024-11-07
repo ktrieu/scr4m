@@ -28,15 +28,15 @@ export const getScrumsForCompany = async (
 	return query.execute();
 };
 
-export const getScrumById = async (
+export const getScrumByNumber = async (
 	db: DbInstance,
-	scrumId: ScrumsId,
+	scrumNumber: number,
 	companyId: CompaniesId,
 ): Promise<Scrums | undefined> => {
 	return db
 		.selectFrom("scrums")
 		.selectAll()
-		.where("scrums.id", "=", scrumId)
+		.where("scrum_number", "=", scrumNumber)
 		.where("company_id", "=", companyId)
 		.executeTakeFirst();
 };
