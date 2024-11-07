@@ -1,4 +1,5 @@
 import type { ScrumGetResponse } from "@scr4m/common";
+import { ScrumTitle } from "./ScrumTitle";
 
 export type ScrumTabMainTitle = {
 	scrum: ScrumGetResponse;
@@ -11,7 +12,7 @@ const ScrumTabMainTitle = (props: ScrumTabMainTitle) => {
 		<>
 			<h1 className="text-8xl mb-3">Scrum #{scrum.number}</h1>
 			<p className="text-xl">
-				{scrum.title || <span className="italic">Untitled</span>}
+				<ScrumTitle title={scrum.title} />
 			</p>{" "}
 		</>
 	);
