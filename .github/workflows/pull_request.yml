@@ -3,7 +3,7 @@ on:
   pull_request:
 
 jobs:
-  biome:
+  pr_check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
