@@ -7,7 +7,7 @@ export type CompaniesId = number & { __brand: "CompaniesId" };
 export default interface CompaniesTable {
 	id: ColumnType<CompaniesId, never, never>;
 
-	name: ColumnType<string, string, string>;
+	name: ColumnType<string, string | undefined, string>;
 }
 
 export type Companies = Selectable<CompaniesTable>;

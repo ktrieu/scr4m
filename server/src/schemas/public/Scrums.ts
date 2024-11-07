@@ -8,7 +8,7 @@ export type ScrumsId = number & { __brand: "ScrumsId" };
 export default interface ScrumsTable {
 	id: ColumnType<ScrumsId, never, never>;
 
-	created_at: ColumnType<Date, Date | string, Date | string>;
+	submitted_at: ColumnType<Date, Date | string, Date | string>;
 
 	scrum_number: ColumnType<number, number, number>;
 
