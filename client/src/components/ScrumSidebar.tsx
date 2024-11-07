@@ -15,7 +15,7 @@ const ScrumSidebarItem = (props: ScrumSidebarItemProps) => {
 	return (
 		<Link to={url}>
 			<div className="p-3 hover:bg-secondary">
-				<h3>Scrum {number}</h3>
+				<h3 className="text-lg">Scrum {number}</h3>
 				<p className="text-sm w-full max-h-16 line-clamp-3">
 					{title || <span className="italic">Untitled</span>}
 				</p>
