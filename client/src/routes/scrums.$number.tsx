@@ -50,8 +50,10 @@ const ScrumsRoute = () => {
 
 	return (
 		<ScrumLayout>
-			<div className="flex flex-col items-stretch h-full">
-				<div className="flex-1 p-12">{renderTab(tabState)}</div>
+			<div className="flex flex-col items-stretch h-full max-h-full">
+				<div className="flex-1 p-12 overflow-y-scroll">
+					{renderTab(tabState)}
+				</div>
 				<ScrumTabBar scrum={data} state={tabState} changeTab={setTabState} />
 			</div>
 		</ScrumLayout>
