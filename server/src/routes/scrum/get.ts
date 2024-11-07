@@ -9,14 +9,13 @@ import {
 	getAttendanceForScrum,
 	getMembersForCompany,
 	getOrderedEntriesForScrum,
-	getScrumById,
+	getScrumByNumber,
 } from "../../db/scrum/index.js";
 import type { FastifyApp } from "../../index.js";
-import type { ScrumsId } from "../../schemas/public/Scrums.js";
 
 export const registerScrumGetRoute = (fastify: FastifyApp) => {
 	fastify.get(
-		"/scrums/:id",
+		"/scrums/:number",
 		{
 			schema: {
 				params: ScrumGetParamsSchema,
@@ -31,9 +30,9 @@ export const registerScrumGetRoute = (fastify: FastifyApp) => {
 				return reply.status(401).send();
 			}
 
-			const scrum = await getScrumById(
+			const scrum = await getScrumByNumber(
 				fastify.db,
-				<ScrumsId>request.params.id,
+				request.params.number,
 				user.company_id,
 			);
 			if (!scrum) {

@@ -2,15 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ScrumLayout } from "../components/layout/ScrumLayout";
 
 const ScrumsRoute = () => {
-	const { id } = Route.useParams();
+	const { number } = Route.useParams();
 
 	return (
 		<ScrumLayout>
-			<p>Scrum {id}</p>
+			<p>Scrum #{number}</p>
 		</ScrumLayout>
 	);
 };
 
-export const Route = createFileRoute("/scrums/$id")({
+export const Route = createFileRoute("/scrums/$number")({
 	component: ScrumsRoute,
 });
