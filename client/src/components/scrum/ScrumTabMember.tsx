@@ -23,7 +23,7 @@ const reshapeEntries = (member: ScrumGetMember) => {
 };
 
 const ScrumCell = (props: React.PropsWithChildren) => {
-	return <p className="px-4 py-2">{props.children}</p>;
+	return <p className="px-4 py-2 border-b border-primary">{props.children}</p>;
 };
 
 export const ScrumTabMember = (props: ScrumTabMemberProps) => {
@@ -50,15 +50,15 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 					HERE
 				</label>
 			</div>
-			<div className="grid grid-cols-3">
+			<div className="grid grid-cols-3 gap-x-6">
 				<ScrumCell>
-					<h1 className="text-center text-xl">TODIDS</h1>
+					<h1 className="text-center text-4xl mb-6">TODIDS</h1>
 				</ScrumCell>
 				<ScrumCell>
-					<h1 className="text-center text-xl">DIDS</h1>
+					<h1 className="text-center text-4xl mb-6">DIDS</h1>
 				</ScrumCell>
 				<ScrumCell>
-					<h1 className="text-center text-xl">TODOS</h1>
+					<h1 className="text-center text-4xl mb-6">TODOS</h1>
 				</ScrumCell>
 
 				{entryRows.map((row, i) => {
