@@ -1,6 +1,7 @@
 import { type ScrumListObject, ScrumListReturnSchema } from "@scr4m/common";
 import { useQuery } from "@tanstack/react-query";
 import { apiGet } from "../api";
+import { Link } from "@tanstack/react-router";
 
 type ScrumSidebarItemProps = {
 	scrum: ScrumListObject;
@@ -9,23 +10,23 @@ type ScrumSidebarItemProps = {
 const ScrumSidebarItem = (props: ScrumSidebarItemProps) => {
 	const { title, number } = props.scrum;
 
-	return (
-		<div className="p-3 hover:bg-secondary">
-			<h3>Scrum {number}</h3>
-			<p className="text-sm w-full max-h-16 line-clamp-3">
-				{title || <span className="italic">Untitled</span>}
-			</p>
-		</div>
-	);
-};
+	const url = `/scrums/${number}`;
 
-type ScrumSidebarProps = {
-	onScrumSelected: (id: number) => void;
+	return (
+		<Link to={url}>
+			<div className="p-3 hover:bg-secondary">
+				<h3>Scrum {number}</h3>
+				<p className="text-sm w-full max-h-16 line-clamp-3">
+					{title || <span className="italic">Untitled</span>}
+				</p>
+			</div>
+		</Link>
+	);
 };
 
 export const SCRUM_LIST_KEY = ["scrums", "list"];
 
-export const ScrumSidebar = (props: ScrumSidebarProps) => {
+export const ScrumSidebar = () => {
 	const { data } = useQuery({
 		initialData: {
 			scrums: [],
