@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/index'
+import { Route as ScrumsIdImport } from './routes/scrums.$id'
 import { Route as RegisterCompanyIdImport } from './routes/register.$companyId'
 
 // Create/Update Routes
@@ -24,6 +25,11 @@ const LoginRoute = LoginImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ScrumsIdRoute = ScrumsIdImport.update({
+  path: '/scrums/$id',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -57,6 +63,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterCompanyIdImport
       parentRoute: typeof rootRoute
     }
+    '/scrums/$id': {
+      id: '/scrums/$id'
+      path: '/scrums/$id'
+      fullPath: '/scrums/$id'
+      preLoaderRoute: typeof ScrumsIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -66,6 +79,7 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   LoginRoute,
   RegisterCompanyIdRoute,
+  ScrumsIdRoute,
 })
 
 /* prettier-ignore-end */
@@ -78,7 +92,8 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/",
         "/login",
-        "/register/$companyId"
+        "/register/$companyId",
+        "/scrums/$id"
       ]
     },
     "/": {
@@ -89,6 +104,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/register/$companyId": {
       "filePath": "register.$companyId.tsx"
+    },
+    "/scrums/$id": {
+      "filePath": "scrums.$id.tsx"
     }
   }
 }
