@@ -1,16 +1,25 @@
-name: Biome
+name: PR checks
 on:
   pull_request:
 
 jobs:
-  biome:
+  pr_check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Biome
-        uses: biomejs/setup-biome@v2
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
         with:
-          version: latest
+          version: 9
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install -r        
+      - name: Typecheck
+        run: pnpm run -r tscheck
       - name: Run Biome
-        run: biome ci .
+        run: pnpm run biome:check

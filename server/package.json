@@ -10,7 +10,8 @@
 		"build": "tsc",
 		"start": "node dist/index.js",
 		"migrate": "node dist/migrate.js",
-		"rollback": "node dist/migration-rollback.js"
+		"rollback": "node dist/migration-rollback.js",
+		"tscheck": "tsc --noEmit"
 	},
 	"devDependencies": {
 		"@dotenvx/dotenvx": "^0.44.0",
