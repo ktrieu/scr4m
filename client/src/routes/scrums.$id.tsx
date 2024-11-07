@@ -1,14 +1,16 @@
-import { createFileRoute, useParams } from '@tanstack/react-router'
-import { ScrumLayout } from '../components/layout/ScrumLayout'
+import { createFileRoute } from "@tanstack/react-router";
+import { ScrumLayout } from "../components/layout/ScrumLayout";
 
 const ScrumsRoute = () => {
-    const { id } = Route.useParams();
+	const { id } = Route.useParams();
 
-    return <ScrumLayout>
-        <p>Scrum {id}</p>
-    </ScrumLayout>
-}
+	return (
+		<ScrumLayout>
+			<p>Scrum {id}</p>
+		</ScrumLayout>
+	);
+};
 
-export const Route = createFileRoute('/scrums/$id')({
-  component: ScrumsRoute
-})
+export const Route = createFileRoute("/scrums/$id")({
+	component: ScrumsRoute,
+});
