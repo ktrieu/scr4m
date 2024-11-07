@@ -22,6 +22,10 @@ const reshapeEntries = (member: ScrumGetMember) => {
 	return rows;
 };
 
+const ScrumCell = (props: React.PropsWithChildren) => {
+	return <p className="px-4 py-2">{props.children}</p>;
+};
+
 export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 	const { scrum, memberId } = props;
 
@@ -46,18 +50,25 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 					HERE
 				</label>
 			</div>
-			<div className="grid grid-cols-3 gap-4">
-				<h1 className="text-center text-xl">TODIDS</h1>
-				<h1 className="text-center text-xl">DIDS</h1>
-				<h1 className="text-center text-xl">TODOS</h1>
+			<div className="grid grid-cols-3">
+				<ScrumCell>
+					<h1 className="text-center text-xl">TODIDS</h1>
+				</ScrumCell>
+				<ScrumCell>
+					<h1 className="text-center text-xl">DIDS</h1>
+				</ScrumCell>
+				<ScrumCell>
+					<h1 className="text-center text-xl">TODOS</h1>
+				</ScrumCell>
+
 				{entryRows.map((row, i) => {
 					const [todid, did, todo] = row;
 
 					return (
 						<>
-							<p key={`${i}-todid`}>{todid}</p>
-							<p key={`${i}-did`}>{did}</p>
-							<p key={`${i}-todo`}>{todo}</p>
+							<ScrumCell key={`${i}-todid`}>{todid}</ScrumCell>
+							<ScrumCell key={`${i}-did`}>{did}</ScrumCell>
+							<ScrumCell key={`${i}-todo`}>{todo}</ScrumCell>
 						</>
 					);
 				})}
