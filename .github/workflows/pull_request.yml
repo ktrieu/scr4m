@@ -12,11 +12,13 @@ jobs:
         name: Install pnpm
         with:
           version: 9
-          run_install: true
+          run_install: false
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install -r        
       - name: Typecheck
         run: pnpm run -r tscheck
       - name: Run Biome
