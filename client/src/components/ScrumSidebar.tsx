@@ -10,9 +10,9 @@ const ScrumSidebarItem = (props: ScrumSidebarItemProps) => {
 	const { title, number } = props.scrum;
 
 	return (
-		<div className="p-3 hover:bg-slate-300">
+		<div className="p-3 hover:bg-secondary">
 			<h3>Scrum {number}</h3>
-			<p className="text-sm h-12">
+			<p className="text-sm w-full max-h-16 line-clamp-3">
 				{title || <span className="italic">Untitled</span>}
 			</p>
 		</div>
@@ -38,7 +38,7 @@ export const ScrumSidebar = (props: ScrumSidebarProps) => {
 	});
 
 	return (
-		<div className="h-full overflow-y-scroll">
+		<div className="h-full overflow-y-scroll w-80 border-r-primary border-2 bg-white">
 			{data.scrums.map((scrum) => (
 				<ScrumSidebarItem key={scrum.id} scrum={scrum} />
 			))}

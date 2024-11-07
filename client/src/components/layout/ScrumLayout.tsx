@@ -9,9 +9,7 @@ export const ScrumLayout = (props: ScrumLayoutProps) => {
 
 	return (
 		<div className="w-screen h-screen flex flex-row">
-			<div className="bg-slate-200 w-1/5">
-				<ScrumSidebar onScrumSelected={onScrumSelected} />
-			</div>
+			<ScrumSidebar onScrumSelected={onScrumSelected} />
 			<div className="flex-1">{props.children}</div>
 		</div>
 	);
