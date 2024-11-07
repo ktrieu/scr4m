@@ -7,15 +7,26 @@ type ScrumSidebarItemProps = {
 	scrum: ScrumListObject;
 };
 
+const formatScrumDate = (scrumDateStr: string) => {
+	// TODO: Maybe download a real date library and regularize this,
+	const date = new Date(scrumDateStr);
+	return date.toLocaleDateString();
+}
+
 const ScrumSidebarItem = (props: ScrumSidebarItemProps) => {
-	const { title, number } = props.scrum;
+	const { title, number, createdAt } = props.scrum;
 
 	const url = `/scrums/${number}`;
 
 	return (
 		<Link to={url}>
 			<div className="p-3 hover:bg-secondary">
-				<h3 className="text-lg">Scrum {number}</h3>
+				<div className="flex justify-between align-bottom">
+					<h3 className="text-lg mb-0">#{number}</h3>
+					<p className="text-sm mb-0">
+						{formatScrumDate(createdAt)}
+					</p>
+				</div>
 				<p className="text-sm w-full max-h-16 line-clamp-3">
 					{title || <span className="italic">Untitled</span>}
 				</p>
