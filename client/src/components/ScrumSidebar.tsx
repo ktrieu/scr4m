@@ -14,7 +14,7 @@ const formatScrumDate = (scrumDateStr: string) => {
 };
 
 const ScrumSidebarItem = (props: ScrumSidebarItemProps) => {
-	const { title, number, createdAt } = props.scrum;
+	const { title, number, submittedAt } = props.scrum;
 
 	const url = `/scrums/${number}`;
 
@@ -23,7 +23,7 @@ const ScrumSidebarItem = (props: ScrumSidebarItemProps) => {
 			<div className="p-3 hover:bg-secondary">
 				<div className="flex justify-between align-bottom">
 					<h3 className="text-lg mb-0">#{number}</h3>
-					<p className="text-sm mb-0">{formatScrumDate(createdAt)}</p>
+					<p className="text-sm mb-0">{formatScrumDate(submittedAt)}</p>
 				</div>
 				<p className="text-sm w-full max-h-16 line-clamp-3">
 					{title || <span className="italic">Untitled</span>}

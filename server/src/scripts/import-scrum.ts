@@ -22,7 +22,7 @@ const MEMBER_SCHEMA = z.object({
 const SCRUM_SCHEMA = z.object({
 	name: z.string(),
 	number: z.number().positive(),
-	createdAt: z.string().datetime({ offset: true }),
+	submittedAt: z.string().datetime({ offset: true }),
 	members: z.array(MEMBER_SCHEMA),
 	companyId: z.number(),
 });
@@ -82,7 +82,7 @@ const insertScrumLine = async (line: string, tx: Transaction<PublicSchema>) => {
 		.insertInto("scrums")
 		.values({
 			company_id: <CompaniesId>scrum.companyId,
-			created_at: scrum.createdAt,
+			submitted_at: scrum.submittedAt,
 			scrum_number: scrum.number,
 			title: scrum.name,
 		})

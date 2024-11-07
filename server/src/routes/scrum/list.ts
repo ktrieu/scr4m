@@ -36,7 +36,7 @@ export const registerScrumListRoute = (fastify: FastifyApp) => {
 
 			const apiScrums: Array<ScrumListObject> = dbScrums.map((s) => ({
 				number: s.scrum_number,
-				createdAt: s.created_at.toISOString(),
+				submittedAt: s.submitted_at.toISOString(),
 				title: s.title,
 				id: s.id,
 			}));
