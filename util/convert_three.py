@@ -60,7 +60,7 @@ def convert(csv):
         scrum_obj = {
             "name": name,
             "number": int(number),
-            "createdAt": created.isoformat(),
+            "submittedAt": created.isoformat(),
             "companyId": COMPANY_ID,
             "members": members,
         }

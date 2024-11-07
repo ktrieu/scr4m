@@ -15,14 +15,14 @@ export const getScrumsForCompany = async (
 		.selectFrom("scrums")
 		.selectAll()
 		.where("company_id", "=", companyId)
-		.orderBy("created_at desc");
+		.orderBy("submitted_at desc");
 
 	if (before) {
-		query = query.where("created_at", "<", new Date(before));
+		query = query.where("submitted_at", "<", new Date(before));
 	}
 
 	if (after) {
-		query = query.where("created_at", ">", new Date(after));
+		query = query.where("submitted_at", ">", new Date(after));
 	}
 
 	return query.execute();

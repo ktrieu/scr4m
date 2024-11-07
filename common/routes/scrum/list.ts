@@ -3,7 +3,7 @@ import { z } from "zod";
 export const ScrumListObjectSchema = z.object({
 	title: z.string(),
 	number: z.number().positive(),
-	createdAt: z.string().datetime(),
+	submittedAt: z.string().datetime(),
 	id: z.number().positive(),
 });
 
