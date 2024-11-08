@@ -1,11 +1,12 @@
 import { type ScrumListObject, ScrumListReturnSchema } from "@scr4m/common";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 import { apiGet } from "../api";
 import { ScrumTitle } from "./scrum/ScrumTitle";
 
 type ScrumSidebarItemProps = {
 	scrum: ScrumListObject;
+	selected: boolean;
 };
 
 const formatScrumDate = (scrumDateStr: string) => {
@@ -16,10 +17,11 @@ const formatScrumDate = (scrumDateStr: string) => {
 
 const ScrumSidebarItem = (props: ScrumSidebarItemProps) => {
 	const { title, number, submittedAt } = props.scrum;
+	const { selected } = props;
 
 	return (
 		<Link to="/scrums/$number" params={{ number: number.toString() }}>
-			<div className="p-3 hover:bg-secondary">
+			<div className={`p-3 hover:bg-secondary ${selected && "bg-secondary"}`}>
 				<div className="flex justify-between align-bottom">
 					<h3 className="text-lg mb-0">#{number}</h3>
 					<p className="text-sm mb-0">{formatScrumDate(submittedAt)}</p>
@@ -46,11 +48,16 @@ export const ScrumSidebar = () => {
 		},
 	});
 
+	const routeParams = useParams({ from: "/scrums/$number" });
+
 	return (
 		<div className="h-full overflow-y-scroll w-80 border-r-primary border-r-2 bg-white">
-			{data.scrums.map((scrum) => (
-				<ScrumSidebarItem key={scrum.id} scrum={scrum} />
-			))}
+			{data.scrums.map((scrum) => {
+				const selected = routeParams.number === scrum.number.toString();
+				return (
+					<ScrumSidebarItem key={scrum.id} scrum={scrum} selected={selected} />
+				);
+			})}
 		</div>
 	);
 };
