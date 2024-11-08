@@ -1,4 +1,8 @@
-import type { ScrumGetMember, ScrumGetResponse } from "@scr4m/common";
+import type {
+	ScrumGetEntry,
+	ScrumGetMember,
+	ScrumGetResponse,
+} from "@scr4m/common";
 
 type ScrumTabMemberProps = {
 	scrum: ScrumGetResponse;
@@ -13,17 +17,27 @@ const reshapeEntries = (member: ScrumGetMember) => {
 	const { todos, dids } = member;
 	const maxRows = max(todos.length, dids.length);
 
-	const rows: Array<[string, string, string]> = [];
+	const rows: Array<[ScrumGetEntry, ScrumGetEntry, ScrumGetEntry]> = [];
 
 	for (let i = 0; i < maxRows; i++) {
-		rows.push(["TBD", dids[i], todos[i]]);
+		rows.push([
+			{
+				id: 1,
+				body: "TBD",
+				order: 1,
+			},
+			dids[i],
+			todos[i],
+		]);
 	}
 
 	return rows;
 };
 
 const ScrumCell = (props: React.PropsWithChildren) => {
-	return <p className="px-4 py-2 border-b border-primary">{props.children}</p>;
+	return (
+		<div className="px-4 py-2 border-b border-primary">{props.children}</div>
+	);
 };
 
 export const ScrumTabMember = (props: ScrumTabMemberProps) => {
@@ -61,14 +75,26 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 					<h1 className="text-center text-4xl mb-6">TODOS</h1>
 				</ScrumCell>
 
-				{entryRows.map((row, i) => {
+				{entryRows.map((row) => {
 					const [todid, did, todo] = row;
 
 					return (
 						<>
-							<ScrumCell key={`${i}-todid`}>{todid}</ScrumCell>
-							<ScrumCell key={`${i}-did`}>{did}</ScrumCell>
-							<ScrumCell key={`${i}-todo`}>{todo}</ScrumCell>
+							{todid ? (
+								<ScrumCell key={`${todid.id}-todid`}>{todid.body}</ScrumCell>
+							) : (
+								<div key="none" />
+							)}
+							{did ? (
+								<ScrumCell key={`${did.id}-did`}>{did.body}</ScrumCell>
+							) : (
+								<div key="none" />
+							)}
+							{todo ? (
+								<ScrumCell key={`${todo.id}-todo`}>{todo.body}</ScrumCell>
+							) : (
+								<div key="none" />
+							)}
 						</>
 					);
 				})}

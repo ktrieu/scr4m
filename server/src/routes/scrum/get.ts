@@ -58,10 +58,18 @@ export const registerScrumGetRoute = (fastify: FastifyApp) => {
 
 				switch (e.type) {
 					case "did":
-						member.dids.push(e.body);
+						member.dids.push({
+							id: e.id,
+							order: e.order,
+							body: e.body,
+						});
 						break;
 					case "todo":
-						member.todos.push(e.body);
+						member.todos.push({
+							id: e.id,
+							order: e.order,
+							body: e.body,
+						});
 						break;
 					case "todid":
 						// TODO: Todids are just last scrum's todos, I don't even know why I included them as a database type.
@@ -76,6 +84,8 @@ export const registerScrumGetRoute = (fastify: FastifyApp) => {
 			}
 
 			const memberList = Array.from(Object.values(membersMap));
+
+			console.log(memberList);
 
 			return {
 				id: scrum.id,
