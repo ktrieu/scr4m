@@ -11,7 +11,7 @@ const ScrumTabMainTitle = (props: ScrumTabMainTitle) => {
 	return (
 		<>
 			<h1 className="text-8xl mb-3">Scrum #{scrum.number}</h1>
-			<p className="text-xl">
+			<p className="text-2xl">
 				<ScrumTitle title={scrum.title} />
 			</p>{" "}
 		</>
