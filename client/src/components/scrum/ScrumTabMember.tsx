@@ -54,15 +54,17 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 		<>
 			<div className="mb-12">
 				<h1 className="text-8xl mb-3">{member.name}</h1>
-				<input
-					type="checkbox"
-					id="present-checkbox"
-					className="mr-3 accent-primary"
-					checked={member.present}
-				/>
-				<label htmlFor="present-checkbox" className="text-xl">
-					HERE
-				</label>
+				<div className="flex items-center">
+					<input
+						type="checkbox"
+						id="present-checkbox"
+						className="mr-3 accent-primary text-primary bg-secondary border-2 border-primary h-6 w-6"
+						checked={member.present}
+					/>
+					<label htmlFor="present-checkbox" className="text-2xl">
+						HERE
+					</label>
+				</div>
 			</div>
 			<div className="grid grid-cols-3 gap-x-6">
 				<ScrumCell>
