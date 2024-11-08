@@ -28,6 +28,17 @@
 					}
 				}
 			}
+		},
+		{
+			"include": ["client/src/components/scrum/ScrumTabMember.tsx"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						// TODO: We don't have an ID to use as a key. Fix this in followup PR.
+						"noArrayIndexKey": "off"
+					}
+				}
+			}
 		}
 	],
 	"files": {
