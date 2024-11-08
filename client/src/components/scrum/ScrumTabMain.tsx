@@ -15,7 +15,12 @@ const ScrumTabMainTitle = (props: ScrumTabMainTitle) => {
 		<>
 			<h1 className="text-8xl mb-3">Scrum #{scrum.number}</h1>
 			<div className="text-2xl">
-				<TextArea value={title} onChange={setTitle} placeholder="Untitled" />
+				<TextArea
+					value={title}
+					onChange={setTitle}
+					placeholder="Untitled"
+					size="large"
+				/>
 			</div>
 		</>
 	);

@@ -3,6 +3,7 @@ import type {
 	ScrumGetMember,
 	ScrumGetResponse,
 } from "@scr4m/common";
+import { TextArea } from "../TextArea";
 
 type ScrumTabMemberProps = {
 	scrum: ScrumGetResponse;
@@ -83,17 +84,32 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 					return (
 						<>
 							{todid ? (
-								<ScrumCell key={`${todid.id}-todid`}>{todid.body}</ScrumCell>
+								<TextArea
+									key={`${todid.id}-todid`}
+									value="TBD"
+									onChange={() => {}}
+									size="default"
+								/>
 							) : (
 								<div key="none" />
 							)}
 							{did ? (
-								<ScrumCell key={`${did.id}-did`}>{did.body}</ScrumCell>
+								<TextArea
+									key={`${did.id}-did`}
+									value={did.body}
+									onChange={() => {}}
+									size="default"
+								/>
 							) : (
 								<div key="none" />
 							)}
 							{todo ? (
-								<ScrumCell key={`${todo.id}-todo`}>{todo.body}</ScrumCell>
+								<TextArea
+									key={`${todo.id}-todo`}
+									value={todo.body}
+									onChange={() => {}}
+									size="default"
+								/>
 							) : (
 								<div key="none" />
 							)}
