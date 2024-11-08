@@ -7,6 +7,7 @@ type TextAreaProps = {
 	size: TextAreaSize;
 	onChange: (value: string) => void;
 	placeholder?: string;
+	allowNewlines?: boolean;
 	disabled?: boolean;
 };
 
@@ -20,7 +21,7 @@ const getFontSizeClass = (size: TextAreaSize) => {
 };
 
 export const TextArea = (props: TextAreaProps) => {
-	const { value, onChange, placeholder, size, disabled } = props;
+	const { value, onChange, placeholder, size, disabled, allowNewlines } = props;
 
 	const fontSizeClass = getFontSizeClass(size);
 
@@ -57,7 +58,9 @@ export const TextArea = (props: TextAreaProps) => {
 
 	const onEnterKeyPressed = (e: React.KeyboardEvent) => {
 		if (e.shiftKey) {
-			insertNewline();
+			if (allowNewlines) {
+				insertNewline();
+			}
 		} else {
 			submit();
 		}

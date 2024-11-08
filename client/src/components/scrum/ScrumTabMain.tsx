@@ -17,6 +17,7 @@ const ScrumTabMainTitle = (props: ScrumTabMainTitle) => {
 					onChange={() => {}}
 					placeholder="Untitled"
 					size="large"
+					allowNewlines
 				/>
 			</div>
 		</>
