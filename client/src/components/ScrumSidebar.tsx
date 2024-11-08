@@ -2,6 +2,7 @@ import { type ScrumListObject, ScrumListReturnSchema } from "@scr4m/common";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { apiGet } from "../api";
+import { ScrumTitle } from "./scrum/ScrumTitle";
 
 type ScrumSidebarItemProps = {
 	scrum: ScrumListObject;
@@ -24,7 +25,7 @@ const ScrumSidebarItem = (props: ScrumSidebarItemProps) => {
 					<p className="text-sm mb-0">{formatScrumDate(submittedAt)}</p>
 				</div>
 				<p className="text-sm w-full max-h-16 line-clamp-3">
-					{title || <span className="italic">Untitled</span>}
+					<ScrumTitle title={title} />
 				</p>
 			</div>
 		</Link>
