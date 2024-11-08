@@ -1,6 +1,6 @@
 import { type ScrumListObject, ScrumListReturnSchema } from "@scr4m/common";
 import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "@tanstack/react-router";
+import { Link, useMatchRoute } from "@tanstack/react-router";
 import { apiGet } from "../api";
 import { ScrumTitle } from "./scrum/ScrumTitle";
 
@@ -48,12 +48,16 @@ export const ScrumSidebar = () => {
 		},
 	});
 
-	const routeParams = useParams({ from: "/scrums/$number" });
+	const matchRoute = useMatchRoute();
 
 	return (
 		<div className="h-full overflow-y-scroll w-80 border-r-primary border-r-2 bg-white">
 			{data.scrums.map((scrum) => {
-				const selected = routeParams.number === scrum.number.toString();
+				const match = matchRoute({
+					to: "/scrums/$number",
+					params: { number: scrum.number.toString() },
+				});
+				const selected = match !== false;
 				return (
 					<ScrumSidebarItem key={scrum.id} scrum={scrum} selected={selected} />
 				);
