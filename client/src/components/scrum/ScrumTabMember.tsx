@@ -3,6 +3,7 @@ import type {
 	ScrumGetMember,
 	ScrumGetResponse,
 } from "@scr4m/common";
+import { TextArea } from "../TextArea";
 
 type ScrumTabMemberProps = {
 	scrum: ScrumGetResponse;
@@ -35,9 +36,7 @@ const reshapeEntries = (member: ScrumGetMember) => {
 };
 
 const ScrumCell = (props: React.PropsWithChildren) => {
-	return (
-		<div className="px-4 py-2 border-b border-primary">{props.children}</div>
-	);
+	return <div className="border-b border-primary">{props.children}</div>;
 };
 
 export const ScrumTabMember = (props: ScrumTabMemberProps) => {
@@ -54,17 +53,19 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 		<>
 			<div className="mb-12">
 				<h1 className="text-8xl mb-3">{member.name}</h1>
-				<input
-					type="checkbox"
-					id="present-checkbox"
-					className="mr-3 accent-primary"
-					checked={member.present}
-				/>
-				<label htmlFor="present-checkbox" className="text-xl">
-					HERE
-				</label>
+				<div className="flex items-center">
+					<input
+						type="checkbox"
+						id="present-checkbox"
+						className="mr-3 accent-primary text-primary bg-secondary border-2 border-primary h-6 w-6"
+						checked={member.present}
+					/>
+					<label htmlFor="present-checkbox" className="text-2xl">
+						HERE
+					</label>
+				</div>
 			</div>
-			<div className="grid grid-cols-3 gap-x-6">
+			<div className="grid grid-cols-3 gap-x-6 auto-rows-min">
 				<ScrumCell>
 					<h1 className="text-center text-4xl mb-6">TODIDS</h1>
 				</ScrumCell>
@@ -81,17 +82,36 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 					return (
 						<>
 							{todid ? (
-								<ScrumCell key={`${todid.id}-todid`}>{todid.body}</ScrumCell>
+								<ScrumCell key={`${todid.id}-todid`}>
+									<TextArea
+										value="TBD"
+										onChange={() => {}}
+										size="default"
+										disabled
+									/>
+								</ScrumCell>
 							) : (
 								<div key="none" />
 							)}
 							{did ? (
-								<ScrumCell key={`${did.id}-did`}>{did.body}</ScrumCell>
+								<ScrumCell key={`${did.id}-did`}>
+									<TextArea
+										value={did.body}
+										onChange={() => {}}
+										size="default"
+									/>
+								</ScrumCell>
 							) : (
 								<div key="none" />
 							)}
 							{todo ? (
-								<ScrumCell key={`${todo.id}-todo`}>{todo.body}</ScrumCell>
+								<ScrumCell key={`${todo.id}-todo`}>
+									<TextArea
+										value={todo.body}
+										onChange={() => {}}
+										size="default"
+									/>
+								</ScrumCell>
 							) : (
 								<div key="none" />
 							)}
