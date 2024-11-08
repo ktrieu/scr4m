@@ -89,6 +89,7 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 									value="TBD"
 									onChange={() => {}}
 									size="default"
+									disabled
 								/>
 							) : (
 								<div key="none" />

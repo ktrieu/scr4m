@@ -7,6 +7,7 @@ type TextAreaProps = {
 	size: TextAreaSize;
 	onChange: (value: string) => void;
 	placeholder?: string;
+	disabled?: boolean;
 };
 
 const getFontSizeClass = (size: TextAreaSize) => {
@@ -19,7 +20,7 @@ const getFontSizeClass = (size: TextAreaSize) => {
 };
 
 export const TextArea = (props: TextAreaProps) => {
-	const { value, onChange, placeholder, size } = props;
+	const { value, onChange, placeholder, size, disabled } = props;
 
 	const fontSizeClass = getFontSizeClass(size);
 
@@ -67,6 +68,7 @@ export const TextArea = (props: TextAreaProps) => {
 			className={`bg-secondary border-none w-full resize-none focus:ring-0 focus:bg-white ${fontSizeClass}`}
 			ref={ref}
 			value={localValue}
+			disabled={disabled}
 			onChange={(e) => {
 				setLocalValue(e.currentTarget.value);
 			}}
