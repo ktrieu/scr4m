@@ -1,5 +1,4 @@
 import type { ScrumGetResponse } from "@scr4m/common";
-import { useState } from "react";
 import { TextArea } from "../TextArea";
 
 export type ScrumTabMainTitle = {
@@ -9,15 +8,13 @@ export type ScrumTabMainTitle = {
 const ScrumTabMainTitle = (props: ScrumTabMainTitle) => {
 	const { scrum } = props;
 
-	const [title, setTitle] = useState<string>(scrum.title);
-
 	return (
 		<>
 			<h1 className="text-8xl mb-3">Scrum #{scrum.number}</h1>
 			<div className="text-2xl">
 				<TextArea
-					value={title}
-					onChange={setTitle}
+					value={scrum.title}
+					onChange={() => {}}
 					placeholder="Untitled"
 					size="large"
 				/>
