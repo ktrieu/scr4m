@@ -66,9 +66,10 @@ export const TextArea = (props: TextAreaProps) => {
 		}
 	};
 
+	// Exciting Chromium bug: the text area will always render a small bottom margin unless you set display: block. https://issues.chromium.org/issues/41420646#comment12
 	return (
 		<textarea
-			className={`bg-secondary border-none w-full resize-none focus:ring-0 focus:bg-white ${fontSizeClass}`}
+			className={`bg-secondary border-none w-full resize-none focus:ring-0 focus:bg-white ${fontSizeClass} box-border block`}
 			ref={ref}
 			value={localValue}
 			disabled={disabled}

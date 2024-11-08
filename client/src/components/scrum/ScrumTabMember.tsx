@@ -36,9 +36,7 @@ const reshapeEntries = (member: ScrumGetMember) => {
 };
 
 const ScrumCell = (props: React.PropsWithChildren) => {
-	return (
-		<div className="px-4 py-2 border-b border-primary">{props.children}</div>
-	);
+	return <div className="border-b border-primary">{props.children}</div>;
 };
 
 export const ScrumTabMember = (props: ScrumTabMemberProps) => {
@@ -67,7 +65,7 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 					</label>
 				</div>
 			</div>
-			<div className="grid grid-cols-3 gap-x-6">
+			<div className="grid grid-cols-3 gap-x-6 auto-rows-min">
 				<ScrumCell>
 					<h1 className="text-center text-4xl mb-6">TODIDS</h1>
 				</ScrumCell>
@@ -84,33 +82,36 @@ export const ScrumTabMember = (props: ScrumTabMemberProps) => {
 					return (
 						<>
 							{todid ? (
-								<TextArea
-									key={`${todid.id}-todid`}
-									value="TBD"
-									onChange={() => {}}
-									size="default"
-									disabled
-								/>
+								<ScrumCell key={`${todid.id}-todid`}>
+									<TextArea
+										value="TBD"
+										onChange={() => {}}
+										size="default"
+										disabled
+									/>
+								</ScrumCell>
 							) : (
 								<div key="none" />
 							)}
 							{did ? (
-								<TextArea
-									key={`${did.id}-did`}
-									value={did.body}
-									onChange={() => {}}
-									size="default"
-								/>
+								<ScrumCell key={`${did.id}-did`}>
+									<TextArea
+										value={did.body}
+										onChange={() => {}}
+										size="default"
+									/>
+								</ScrumCell>
 							) : (
 								<div key="none" />
 							)}
 							{todo ? (
-								<TextArea
-									key={`${todo.id}-todo`}
-									value={todo.body}
-									onChange={() => {}}
-									size="default"
-								/>
+								<ScrumCell key={`${todo.id}-todo`}>
+									<TextArea
+										value={todo.body}
+										onChange={() => {}}
+										size="default"
+									/>
+								</ScrumCell>
 							) : (
 								<div key="none" />
 							)}
