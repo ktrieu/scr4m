@@ -1,8 +1,8 @@
-import { ScrumListReturnSchema, type ScrumListObject } from "@scr4m/common";
-import { Link } from "@tanstack/react-router";
-import { ScrumTitle } from "./scrum/ScrumTitle";
+import { type ScrumListObject, ScrumListReturnSchema } from "@scr4m/common";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { apiGet } from "../api";
+import { ScrumTitle } from "./scrum/ScrumTitle";
 
 type ScrumSidebarItemProps = {
 	scrum: ScrumListObject;
