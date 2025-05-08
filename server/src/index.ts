@@ -14,6 +14,7 @@ import { createKyselyPlugin } from "./kysely-plugin.js";
 import { registerAuthRoutes } from "./routes/auth/index.js";
 import { registerScrumRoutes } from "./routes/scrum/index.js";
 import type Database from "./schemas/Database.js";
+import { registerPublicCompaniesRoutes } from "./routes/companies/index.js";
 
 const fastify = Fastify({
 	logger: true,
@@ -36,5 +37,6 @@ export type FastifyApp = typeof app;
 
 registerAuthRoutes(app);
 registerScrumRoutes(app);
+registerPublicCompaniesRoutes(app);
 
 fastify.listen({ port: ENV_CONFIG.PORT, host: "0.0.0.0" });

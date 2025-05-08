@@ -3,3 +3,4 @@ export * from "./login.js";
 export * from "./status.js";
 export * from "./me.js";
 export * from "./scrum/index.js";
+export * from "./companies/index.js";
