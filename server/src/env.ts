@@ -7,6 +7,7 @@ type Config = {
 	DATABASE_USE_SSL: boolean;
 	SESSION_SECRET: string;
 	USE_SECURE_SESSION_COOKIE: boolean;
+	DISCORD_BOT_TOKEN: string;
 	PORT: number;
 };
 
@@ -54,5 +55,6 @@ export const ENV_CONFIG: Config = {
 	DATABASE_USE_SSL: requiredBool("DATABASE_USE_SSL"),
 	SESSION_SECRET: requiredString("SESSION_SECRET"),
 	USE_SECURE_SESSION_COOKIE: requiredBool("USE_SECURE_SESSION_COOKIE"),
+	DISCORD_BOT_TOKEN: requiredString("DISCORD_BOT_TOKEN"),
 	PORT: requiredNumber("PORT"),
 };
