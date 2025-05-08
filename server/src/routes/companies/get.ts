@@ -2,9 +2,9 @@ import { getCompanyById } from "../../db/company/index.js";
 import type { FastifyApp } from "../../index.js";
 
 import {
-	PublicCompaniesGetResponseSchema,
 	PublicCompaniesGetParamsSchema,
 	type PublicCompaniesGetResponse,
+	PublicCompaniesGetResponseSchema,
 } from "@scr4m/common";
 import type { CompaniesId } from "../../schemas/public/Companies.js";
 
