@@ -1,7 +1,7 @@
-import type { Kysely } from "kysely";
-import type PublicSchema from "../schemas/public/PublicSchema.js";
 import { Client, Events, GatewayIntentBits } from "discord.js";
+import type { Kysely } from "kysely";
 import { ENV_CONFIG } from "../env.js";
+import type PublicSchema from "../schemas/public/PublicSchema.js";
 
 type DiscordBot = {
 	db: Kysely<PublicSchema>;

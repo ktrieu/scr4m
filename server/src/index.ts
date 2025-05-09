@@ -9,13 +9,13 @@ import {
 import { Kysely } from "kysely";
 import { createSessionRegisterOptions } from "./auth/session.js";
 import { createPostgresDialect } from "./db/index.js";
+import { createDiscordBot } from "./discord/index.js";
 import { ENV_CONFIG } from "./env.js";
 import { createKyselyPlugin } from "./kysely-plugin.js";
 import { registerAuthRoutes } from "./routes/auth/index.js";
 import { registerPublicCompaniesRoutes } from "./routes/companies/index.js";
 import { registerScrumRoutes } from "./routes/scrum/index.js";
 import type Database from "./schemas/Database.js";
-import { createDiscordBot } from "./discord/index.js";
 
 const fastify = Fastify({
 	logger: true,
