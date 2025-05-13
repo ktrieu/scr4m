@@ -1,8 +1,15 @@
 import {
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle,
 	ChannelType,
 	Client,
 	Events,
 	GatewayIntentBits,
+	MessageFlags,
+	SeparatorBuilder,
+	SeparatorSpacingSize,
+	TextDisplayBuilder,
 	type Guild,
 	type TextChannel,
 } from "discord.js";
@@ -55,6 +62,35 @@ export const createDiscordBot = async (
 	};
 };
 
+const BUTTON_VOTE_YES = "button-vote-yes";
+const BUTTON_VOTE_NO = "button-vote-no";
+
 export const sendScrumMessage = async (bot: DiscordBot) => {
-	await bot.channel.send("hello!");
+	const text = new TextDisplayBuilder().setContent(
+		"@everyone\n\nUGO-BOT SCRUMMONS: Vote if you are available for scrum!",
+	);
+
+	const separator = new SeparatorBuilder()
+		.setSpacing(SeparatorSpacingSize.Large)
+		.setDivider(true);
+
+	const yesButton = new ButtonBuilder()
+		.setCustomId(BUTTON_VOTE_YES)
+		.setEmoji("👍")
+		.setStyle(ButtonStyle.Success);
+
+	const noButton = new ButtonBuilder()
+		.setCustomId(BUTTON_VOTE_NO)
+		.setEmoji("👎")
+		.setStyle(ButtonStyle.Danger);
+
+	const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+		yesButton,
+		noButton,
+	);
+
+	bot.channel.send({
+		components: [text, separator, actionRow],
+		flags: MessageFlags.IsComponentsV2,
+	});
 };

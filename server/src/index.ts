@@ -9,7 +9,7 @@ import {
 import { Kysely } from "kysely";
 import { createSessionRegisterOptions } from "./auth/session.js";
 import { createPostgresDialect } from "./db/index.js";
-import { createDiscordBot, sendScrumMessage } from "./discord/index.js";
+import { createDiscordBot } from "./discord/index.js";
 import { ENV_CONFIG } from "./env.js";
 import { createKyselyPlugin } from "./kysely-plugin.js";
 import { registerAuthRoutes } from "./routes/auth/index.js";
@@ -43,4 +43,3 @@ registerPublicCompaniesRoutes(app);
 fastify.listen({ port: ENV_CONFIG.PORT, host: "0.0.0.0" });
 
 const bot = await createDiscordBot(db);
-await sendScrumMessage(bot);
