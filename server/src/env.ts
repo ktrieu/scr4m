@@ -1,16 +1,3 @@
-type Config = {
-	DATABASE_HOST: string;
-	DATABASE_USER: string;
-	DATABASE_PASSWORD: string;
-	DATABASE_NAME: string;
-	DATABASE_PORT: number;
-	DATABASE_USE_SSL: boolean;
-	SESSION_SECRET: string;
-	USE_SECURE_SESSION_COOKIE: boolean;
-	DISCORD_BOT_TOKEN: string;
-	PORT: number;
-};
-
 const requiredString = (key: string) => {
 	const value = process.env[key];
 
@@ -46,7 +33,7 @@ const requiredBool = (key: string) => {
 	}
 };
 
-export const ENV_CONFIG: Config = {
+export const ENV_CONFIG = {
 	DATABASE_HOST: requiredString("DATABASE_HOST"),
 	DATABASE_USER: requiredString("DATABASE_USER"),
 	DATABASE_PASSWORD: requiredString("DATABASE_PASSWORD"),
@@ -56,5 +43,7 @@ export const ENV_CONFIG: Config = {
 	SESSION_SECRET: requiredString("SESSION_SECRET"),
 	USE_SECURE_SESSION_COOKIE: requiredBool("USE_SECURE_SESSION_COOKIE"),
 	DISCORD_BOT_TOKEN: requiredString("DISCORD_BOT_TOKEN"),
+	DISCORD_BOT_SERVER_ID: requiredString("DISCORD_BOT_SERVER_ID"),
+	DISCORD_BOT_CHANNEL_ID: requiredString("DISCORD_BOT_CHANNEL_ID"),
 	PORT: requiredNumber("PORT"),
-};
+} as const;
