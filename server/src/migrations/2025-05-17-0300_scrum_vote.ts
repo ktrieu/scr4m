@@ -12,9 +12,16 @@ export async function up(db: Kysely<any>) {
 		.addColumn("id", "integer", (col) =>
 			col.primaryKey().generatedAlwaysAsIdentity(),
 		)
+		.addColumn("company_id", "integer", (col) => col.notNull())
 		.addColumn("status", sql`scrum_vote_status`, (col) => col.notNull())
 		.addColumn("scrum_date", "date", (col) => col.notNull())
 		.addColumn("message_id", "text", (col) => col.notNull())
+		.addForeignKeyConstraint(
+			"scrum_votes_companies_foreign_key",
+			["company_id"],
+			"companies",
+			["id"],
+		)
 		.execute();
 
 	await db.schema
