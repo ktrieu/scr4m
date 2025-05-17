@@ -12,20 +12,54 @@ import {
 	TextDisplayBuilder,
 	type Guild,
 	type TextChannel,
+	type ButtonInteraction,
 } from "discord.js";
-import type { Kysely } from "kysely";
 import { ENV_CONFIG } from "../env.js";
-import type PublicSchema from "../schemas/public/PublicSchema.js";
+
+const BUTTON_VOTE_YES = "button-vote-yes";
+const BUTTON_VOTE_NO = "button-vote-no";
+
+type DiscordBotEventHandlers = {
+	onScrumVote?: (
+		available: boolean,
+		messageId: string,
+		userId: string,
+	) => Promise<void>;
+};
 
 type DiscordBot = {
-	db: Kysely<PublicSchema>;
 	client: Client<true>;
 	server: Guild;
 	channel: TextChannel;
+	handlers: DiscordBotEventHandlers;
+};
+
+const handleButtonInteraction = async (
+	interaction: ButtonInteraction,
+	handlers: DiscordBotEventHandlers,
+) => {
+	let available: boolean;
+	if (interaction.customId === BUTTON_VOTE_YES) {
+		available = true;
+	} else if (interaction.customId === BUTTON_VOTE_NO) {
+		available = false;
+	} else {
+		console.warn(
+			`Unrecognized button interaction. Custom ID: ${interaction.customId}`,
+		);
+		return;
+	}
+
+	const messageId = interaction.message.id;
+	const userId = interaction.user.id;
+
+	if (handlers.onScrumVote) {
+		await handlers.onScrumVote(available, messageId, userId);
+	}
 };
 
 export const createDiscordBot = async (
-	db: Kysely<PublicSchema>,
+	handlers: DiscordBotEventHandlers,
 ): Promise<DiscordBot> => {
 	const client = new Client({
 		intents: [GatewayIntentBits.Guilds],
@@ -54,16 +88,24 @@ export const createDiscordBot = async (
 		throw new Error(`Channel ${channel.name} is not text-based!`);
 	}
 
-	return {
-		db,
+	client.on("interactionCreate", async (interaction) => {
+		if (interaction.isButton()) {
+			await interaction.deferUpdate();
+			await handleButtonInteraction(interaction, handlers);
+		} else {
+			console.warn(`Unrecognized interaction: ${interaction.type}`);
+		}
+	});
+
+	const bot = {
 		client: readyClient,
 		server,
 		channel,
+		handlers,
 	};
-};
 
-const BUTTON_VOTE_YES = "button-vote-yes";
-const BUTTON_VOTE_NO = "button-vote-no";
+	return bot;
+};
 
 export const sendScrumMessage = async (bot: DiscordBot) => {
 	const text = new TextDisplayBuilder().setContent(
