@@ -1,18 +1,18 @@
 import {
 	ActionRowBuilder,
 	ButtonBuilder,
+	type ButtonInteraction,
 	ButtonStyle,
 	ChannelType,
 	Client,
 	Events,
 	GatewayIntentBits,
+	type Guild,
 	MessageFlags,
 	SeparatorBuilder,
 	SeparatorSpacingSize,
-	TextDisplayBuilder,
-	type Guild,
 	type TextChannel,
-	type ButtonInteraction,
+	TextDisplayBuilder,
 } from "discord.js";
 import { ENV_CONFIG } from "../env.js";
 
