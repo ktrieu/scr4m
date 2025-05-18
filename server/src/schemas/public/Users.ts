@@ -19,6 +19,8 @@ export default interface UsersTable {
 	>;
 
 	company_id: ColumnType<CompaniesId, CompaniesId, CompaniesId>;
+
+	discord_id: ColumnType<string | null, string | null, string | null>;
 }
 
 export type Users = Selectable<UsersTable>;
