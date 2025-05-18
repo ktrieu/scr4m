@@ -31,6 +31,13 @@ export async function up(db: Kysely<any>) {
 		.execute();
 
 	await db.schema
+		.createIndex("scrum_votes_scrum_date_company_id_unique_idx")
+		.on("scrum_votes")
+		.columns(["scrum_date", "company_id"])
+		.unique()
+		.execute();
+
+	await db.schema
 		.createTable("scrum_vote_responses")
 		.addColumn("id", "integer", (col) =>
 			col.primaryKey().generatedAlwaysAsIdentity(),
@@ -56,6 +63,7 @@ export async function up(db: Kysely<any>) {
 
 export async function down(db: Kysely<any>) {
 	await db.schema.dropTable("scrum_vote_responses").execute();
+	await db.schema.dropIndex("scrum_votes_scrum_date_company_id_unique_idx");
 	await db.schema.dropIndex("scrum_votes_message_id_idx").execute();
 	await db.schema.dropTable("scrum_votes").execute();
 	await db.schema.dropType("scrum_vote_status").execute();
