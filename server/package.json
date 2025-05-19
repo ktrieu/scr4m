@@ -16,6 +16,7 @@
 	},
 	"devDependencies": {
 		"@dotenvx/dotenvx": "^0.44.0",
+		"@types/luxon": "^3.6.2",
 		"@types/node": "^20.12.12",
 		"@types/pg": "^8.11.6",
 		"kanel": "^3.8.9",
@@ -33,6 +34,7 @@
 		"fastify-type-provider-zod": "^1.2.0",
 		"google-auth-library": "^9.10.0",
 		"kysely": "^0.27.3",
+		"luxon": "^3.6.1",
 		"pg": "^8.11.5",
 		"zod": "^3.23.8"
 	}
