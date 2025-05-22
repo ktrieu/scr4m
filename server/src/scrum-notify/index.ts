@@ -8,7 +8,6 @@ import {
 	isScrumVoteOpen,
 } from "../db/scrum-vote/index.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
-import { scheduleJob } from "node-schedule";
 
 type ScrumNotifier = {
 	db: Kysely<PublicSchema>;
@@ -27,33 +26,60 @@ export const createScrumNotifier = (
 
 const COMPANY_ID = <CompaniesId>1;
 
-const openScrumJob = async (notifier: ScrumNotifier) => {
-	const now = DateTime.now();
-
-	const voteAlreadyOpen = await isScrumVoteOpen(notifier.db, COMPANY_ID, now);
-	if (voteAlreadyOpen) {
-		throw new Error(`Scrum vote already open for company ${COMPANY_ID}`);
-	}
-
+const openScrum = async (
+	notifier: ScrumNotifier,
+	companyId: CompaniesId,
+	now: DateTime,
+) => {
 	const message = await sendScrumMessage(notifier.bot);
 
-	await createScrumVote(notifier.db, COMPANY_ID, now, message.id);
+	await createScrumVote(notifier.db, companyId, now, message.id);
 };
 
-const closeScrumJob = async (notifier: ScrumNotifier) => {
-	const now = DateTime.now();
+const closeScrum = async (
+	notifier: ScrumNotifier,
+	companyId: CompaniesId,
+	now: DateTime,
+) => {
+	// Calculate the actual status later.
+	await closeScrumVote(notifier.db, companyId, now, "possible");
+};
 
-	const voteAlreadyOpen = await isScrumVoteOpen(notifier.db, COMPANY_ID, now);
-	if (!voteAlreadyOpen) {
-		throw new Error(`Scrum not open for company ${COMPANY_ID}`);
+// The greatest time zone, of course.
+const NOTIFIER_TZ = "America/Toronto";
+
+// Half-open intervals for when a scrum should be opened or closed.
+// 24-hour in Eastern time.
+const SCRUM_OPEN_INTERVAL = [0, 16] as const;
+const SCRUM_CLOSE_INTERVAL = [16, 24] as const;
+
+const nowInInterval = (
+	now: DateTime,
+	interval: readonly [number, number],
+): boolean => {
+	const eastern = now.setZone(NOTIFIER_TZ);
+
+	return eastern.hour >= interval[0] && eastern.hour < interval[1];
+};
+
+const scrumNotifierRoutine = async (notifier: ScrumNotifier) => {
+	const now = DateTime.now();
+	const todayScrumOpen = await isScrumVoteOpen(notifier.db, COMPANY_ID, now);
+
+	if (!todayScrumOpen && nowInInterval(now, SCRUM_OPEN_INTERVAL)) {
+		await openScrum(notifier, COMPANY_ID, now);
 	}
 
-	// Calculate the actual status later.
-	await closeScrumVote(notifier.db, COMPANY_ID, now, "possible");
+	if (todayScrumOpen && nowInInterval(now, SCRUM_CLOSE_INTERVAL)) {
+		await closeScrum(notifier, COMPANY_ID, now);
+	}
 };
 
-export const scheduleScrumNotifyJobs = (notifier: ScrumNotifier) => {
-	scheduleJob("0 7 * * *", async () => {
-		await openScrumJob(notifier);
-	});
+// Run this notifier routine once every minute.
+const SCRUM_NOTIFIER_INTERVAL_MSECS = 60 * 1000;
+
+export const startScrumNotifierRoutine = (notifier: ScrumNotifier) => {
+	setInterval(async () => {
+		scrumNotifierRoutine(notifier);
+	}, SCRUM_NOTIFIER_INTERVAL_MSECS);
 };

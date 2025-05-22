@@ -18,7 +18,7 @@ import { registerScrumRoutes } from "./routes/scrum/index.js";
 import type Database from "./schemas/Database.js";
 import {
 	createScrumNotifier,
-	scheduleScrumNotifyJobs,
+	startScrumNotifierRoutine,
 } from "./scrum-notify/index.js";
 
 const fastify = Fastify({
@@ -53,5 +53,4 @@ const bot = await createDiscordBot({
 });
 
 const scrumNotifier = createScrumNotifier(db, bot);
-
-scheduleScrumNotifyJobs(scrumNotifier);
+startScrumNotifierRoutine(scrumNotifier);
