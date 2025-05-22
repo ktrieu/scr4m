@@ -1,13 +1,13 @@
 import type { Kysely } from "kysely";
-import { sendScrumMessage, type DiscordBot } from "../discord/index.js";
-import type PublicSchema from "../schemas/public/PublicSchema.js";
 import { DateTime } from "luxon";
 import {
 	closeScrumVote,
 	createScrumVote,
 	isScrumVoteOpen,
 } from "../db/scrum-vote/index.js";
+import { type DiscordBot, sendScrumMessage } from "../discord/index.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
+import type PublicSchema from "../schemas/public/PublicSchema.js";
 
 type ScrumNotifier = {
 	db: Kysely<PublicSchema>;
