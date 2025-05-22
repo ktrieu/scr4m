@@ -60,3 +60,21 @@ export const closeScrumVote = async (
 		.set("status", status)
 		.execute();
 };
+
+export const isScrumVoteOpen = async (
+	db: Kysely<PublicSchema>,
+	companyId: CompaniesId,
+	date: DateTime,
+): Promise<boolean> => {
+	const scrumDate = dateToScrumDate(date);
+
+	const openScrum = await db
+		.selectFrom("scrum_votes")
+		.where("scrum_votes.company_id", "=", companyId)
+		.where("scrum_date", "=", scrumDate.toJSDate())
+		.where("status", "=", "open")
+		.limit(1)
+		.executeTakeFirst();
+
+	return openScrum !== undefined;
+};
