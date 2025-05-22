@@ -19,7 +19,7 @@ import { ENV_CONFIG } from "../env.js";
 const BUTTON_VOTE_YES = "button-vote-yes";
 const BUTTON_VOTE_NO = "button-vote-no";
 
-type DiscordBotEventHandlers = {
+export type DiscordBotEventHandlers = {
 	onScrumVote?: (
 		available: boolean,
 		messageId: string,
@@ -27,7 +27,7 @@ type DiscordBotEventHandlers = {
 	) => Promise<void>;
 };
 
-type DiscordBot = {
+export type DiscordBot = {
 	client: Client<true>;
 	server: Guild;
 	channel: TextChannel;
@@ -131,7 +131,7 @@ export const sendScrumMessage = async (bot: DiscordBot) => {
 		noButton,
 	);
 
-	bot.channel.send({
+	return bot.channel.send({
 		components: [text, separator, actionRow],
 		flags: MessageFlags.IsComponentsV2,
 	});
