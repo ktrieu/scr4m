@@ -2,7 +2,11 @@ import type { Kysely } from "kysely";
 import { sendScrumMessage, type DiscordBot } from "../discord/index.js";
 import type PublicSchema from "../schemas/public/PublicSchema.js";
 import { DateTime } from "luxon";
-import { createScrumVote, isScrumVoteOpen } from "../db/scrum-vote/index.js";
+import {
+	closeScrumVote,
+	createScrumVote,
+	isScrumVoteOpen,
+} from "../db/scrum-vote/index.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
 import { scheduleJob } from "node-schedule";
 
@@ -34,6 +38,18 @@ const openScrumJob = async (notifier: ScrumNotifier) => {
 	const message = await sendScrumMessage(notifier.bot);
 
 	await createScrumVote(notifier.db, COMPANY_ID, now, message.id);
+};
+
+const closeScrumJob = async (notifier: ScrumNotifier) => {
+	const now = DateTime.now();
+
+	const voteAlreadyOpen = await isScrumVoteOpen(notifier.db, COMPANY_ID, now);
+	if (!voteAlreadyOpen) {
+		throw new Error(`Scrum not open for company ${COMPANY_ID}`);
+	}
+
+	// Calculate the actual status later.
+	await closeScrumVote(notifier.db, COMPANY_ID, now, "possible");
 };
 
 export const scheduleScrumNotifyJobs = (notifier: ScrumNotifier) => {
