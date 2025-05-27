@@ -7,6 +7,7 @@ services:
     environment:
       - DATABASE_USE_SSL=true
       - USE_SECURE_SESSION_COOKIE=true
+      - ENVIRONMENT=prod
 
   proxy:
     image: registry.gitlab.com/ugo-ii/scr4m/proxy:${IMAGE_VERSION}

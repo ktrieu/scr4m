@@ -33,7 +33,20 @@ const requiredBool = (key: string) => {
 	}
 };
 
+const requiredEnvEnum = (key: string): Environment => {
+	const value = requiredString(key);
+
+	if (value !== "dev" && value !== "prod") {
+		throw new Error(`Invalid value for ENVIRONMENT: ${value}`);
+	}
+
+	return value;
+};
+
+type Environment = "dev" | "prod";
+
 export const ENV_CONFIG = {
+	ENVIRONMENT: requiredEnvEnum("ENVIRONMENT"),
 	DATABASE_HOST: requiredString("DATABASE_HOST"),
 	DATABASE_USER: requiredString("DATABASE_USER"),
 	DATABASE_PASSWORD: requiredString("DATABASE_PASSWORD"),
@@ -47,3 +60,11 @@ export const ENV_CONFIG = {
 	DISCORD_BOT_CHANNEL_ID: requiredString("DISCORD_BOT_CHANNEL_ID"),
 	PORT: requiredNumber("PORT"),
 } as const;
+
+export const envIsDev = () => {
+	return ENV_CONFIG.ENVIRONMENT === "dev";
+};
+
+export const envIsProd = () => {
+	return ENV_CONFIG.ENVIRONMENT === "prod";
+};
