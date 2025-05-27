@@ -1,20 +1,20 @@
 import type { Kysely } from "kysely";
 import { DateTime } from "luxon";
+import { createScrumVoteResponse } from "../db/scrum-vote-response/index.js";
 import {
 	closeScrumVote,
 	createScrumVote,
 	getScrumVoteByMessageId,
 	isScrumVoteOpen,
 } from "../db/scrum-vote/index.js";
+import { getUserByDiscordId } from "../db/user/index.js";
 import {
-	addScrumVoteHandler,
 	type DiscordBot,
+	addScrumVoteHandler,
 	sendScrumMessage,
 } from "../discord/index.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
 import type PublicSchema from "../schemas/public/PublicSchema.js";
-import { getUserByDiscordId } from "../db/user/index.js";
-import { createScrumVoteResponse } from "../db/scrum-vote-response/index.js";
 
 type ScrumNotifier = {
 	db: Kysely<PublicSchema>;
