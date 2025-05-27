@@ -58,8 +58,13 @@ const handleButtonInteraction = async (
 	const userId = interaction.user.id;
 
 	for (const handler of bot.scrumVoteHandlers) {
-		console.log("calling handler");
-		await handler(available, messageId, userId);
+		try {
+			await handler(available, messageId, userId);
+		} catch (e) {
+			console.error(
+				`Error from scrum vote handler: ${e}. Continuing with next handler.`,
+			);
+		}
 	}
 };
 
