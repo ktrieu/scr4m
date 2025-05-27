@@ -14,10 +14,14 @@ import {
 	type TextChannel,
 	TextDisplayBuilder,
 } from "discord.js";
-import { ENV_CONFIG } from "../env.js";
+import { ENV_CONFIG, envIsDev } from "../env.js";
 
 const BUTTON_VOTE_YES = "button-vote-yes";
 const BUTTON_VOTE_NO = "button-vote-no";
+
+const getButtonId = (id: string) => {
+	return `${ENV_CONFIG.ENVIRONMENT}-${id}`;
+};
 
 export type DiscordBotEventHandlers = {
 	onScrumVote?: (
@@ -39,9 +43,9 @@ const handleButtonInteraction = async (
 	handlers: DiscordBotEventHandlers,
 ) => {
 	let available: boolean;
-	if (interaction.customId === BUTTON_VOTE_YES) {
+	if (interaction.customId === getButtonId(BUTTON_VOTE_YES)) {
 		available = true;
-	} else if (interaction.customId === BUTTON_VOTE_NO) {
+	} else if (interaction.customId === getButtonId(BUTTON_VOTE_NO)) {
 		available = false;
 	} else {
 		console.warn(
@@ -49,6 +53,8 @@ const handleButtonInteraction = async (
 		);
 		return;
 	}
+
+	await interaction.deferUpdate();
 
 	const messageId = interaction.message.id;
 	const userId = interaction.user.id;
@@ -90,7 +96,6 @@ export const createDiscordBot = async (
 
 	client.on("interactionCreate", async (interaction) => {
 		if (interaction.isButton()) {
-			await interaction.deferUpdate();
 			await handleButtonInteraction(interaction, handlers);
 		} else {
 			console.warn(`Unrecognized interaction: ${interaction.type}`);
@@ -108,21 +113,26 @@ export const createDiscordBot = async (
 };
 
 export const sendScrumMessage = async (bot: DiscordBot) => {
-	const text = new TextDisplayBuilder().setContent(
-		"@everyone\n\nUGO-BOT SCRUMMONS: Vote if you are available for scrum!",
-	);
+	let message =
+		"@everyone\n\nUGO-BOT SCRUMMONS: Vote if you are available for scrum!";
+
+	if (envIsDev()) {
+		message += "\nDEBUG";
+	}
+
+	const text = new TextDisplayBuilder().setContent(message);
 
 	const separator = new SeparatorBuilder()
 		.setSpacing(SeparatorSpacingSize.Large)
 		.setDivider(true);
 
 	const yesButton = new ButtonBuilder()
-		.setCustomId(BUTTON_VOTE_YES)
+		.setCustomId(getButtonId(BUTTON_VOTE_YES))
 		.setEmoji("👍")
 		.setStyle(ButtonStyle.Success);
 
 	const noButton = new ButtonBuilder()
-		.setCustomId(BUTTON_VOTE_NO)
+		.setCustomId(getButtonId(BUTTON_VOTE_NO))
 		.setEmoji("👎")
 		.setStyle(ButtonStyle.Danger);
 
