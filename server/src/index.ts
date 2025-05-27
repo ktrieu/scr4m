@@ -46,11 +46,7 @@ registerPublicCompaniesRoutes(app);
 
 fastify.listen({ port: ENV_CONFIG.PORT, host: "0.0.0.0" });
 
-const bot = await createDiscordBot({
-	onScrumVote: async (available, messageId, userId) => {
-		console.log(available, messageId, userId);
-	},
-});
+const bot = await createDiscordBot();
 
 const scrumNotifier = createScrumNotifier(db, bot);
 startScrumNotifierRoutine(scrumNotifier);

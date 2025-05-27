@@ -1,11 +1,18 @@
 import type { Kysely } from "kysely";
 import { DateTime } from "luxon";
+import { createScrumVoteResponse } from "../db/scrum-vote-response/index.js";
 import {
 	closeScrumVote,
 	createScrumVote,
+	getScrumVoteByMessageId,
 	isScrumVoteOpen,
 } from "../db/scrum-vote/index.js";
-import { type DiscordBot, sendScrumMessage } from "../discord/index.js";
+import { getUserByDiscordId } from "../db/user/index.js";
+import {
+	type DiscordBot,
+	addScrumVoteHandler,
+	sendScrumMessage,
+} from "../discord/index.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
 import type PublicSchema from "../schemas/public/PublicSchema.js";
 
@@ -18,6 +25,26 @@ export const createScrumNotifier = (
 	db: Kysely<PublicSchema>,
 	bot: DiscordBot,
 ) => {
+	addScrumVoteHandler(bot, async (available, messageId, userId) => {
+		const user = await getUserByDiscordId(db, userId);
+		if (user === null) {
+			throw new Error(`No user found for Discord user id ${userId}`);
+		}
+
+		const scrumVote = await getScrumVoteByMessageId(db, messageId);
+		if (scrumVote === null) {
+			throw new Error(`No vote for Discord message id ${messageId}`);
+		}
+
+		await createScrumVoteResponse(
+			db,
+			scrumVote.id,
+			available,
+			user.id,
+			DateTime.now(),
+		);
+	});
+
 	return {
 		db,
 		bot,

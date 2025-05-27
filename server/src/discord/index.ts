@@ -23,24 +23,22 @@ const getButtonId = (id: string) => {
 	return `${ENV_CONFIG.ENVIRONMENT}-${id}`;
 };
 
-export type DiscordBotEventHandlers = {
-	onScrumVote?: (
-		available: boolean,
-		messageId: string,
-		userId: string,
-	) => Promise<void>;
-};
+type ScrumVoteHandler = (
+	available: boolean,
+	messageId: string,
+	userId: string,
+) => Promise<void>;
 
 export type DiscordBot = {
 	client: Client<true>;
 	server: Guild;
 	channel: TextChannel;
-	handlers: DiscordBotEventHandlers;
+	scrumVoteHandlers: ScrumVoteHandler[];
 };
 
 const handleButtonInteraction = async (
+	bot: DiscordBot,
 	interaction: ButtonInteraction,
-	handlers: DiscordBotEventHandlers,
 ) => {
 	let available: boolean;
 	if (interaction.customId === getButtonId(BUTTON_VOTE_YES)) {
@@ -59,14 +57,18 @@ const handleButtonInteraction = async (
 	const messageId = interaction.message.id;
 	const userId = interaction.user.id;
 
-	if (handlers.onScrumVote) {
-		await handlers.onScrumVote(available, messageId, userId);
+	for (const handler of bot.scrumVoteHandlers) {
+		try {
+			await handler(available, messageId, userId);
+		} catch (e) {
+			console.error(
+				`Error from scrum vote handler: ${e}. Continuing with next handler.`,
+			);
+		}
 	}
 };
 
-export const createDiscordBot = async (
-	handlers: DiscordBotEventHandlers,
-): Promise<DiscordBot> => {
+export const createDiscordBot = async (): Promise<DiscordBot> => {
 	const client = new Client({
 		intents: [GatewayIntentBits.Guilds],
 	});
@@ -94,22 +96,29 @@ export const createDiscordBot = async (
 		throw new Error(`Channel ${channel.name} is not text-based!`);
 	}
 
+	const bot = {
+		client: readyClient,
+		server,
+		channel,
+		scrumVoteHandlers: [],
+	};
+
 	client.on("interactionCreate", async (interaction) => {
 		if (interaction.isButton()) {
-			await handleButtonInteraction(interaction, handlers);
+			await handleButtonInteraction(bot, interaction);
 		} else {
 			console.warn(`Unrecognized interaction: ${interaction.type}`);
 		}
 	});
 
-	const bot = {
-		client: readyClient,
-		server,
-		channel,
-		handlers,
-	};
-
 	return bot;
+};
+
+export const addScrumVoteHandler = (
+	bot: DiscordBot,
+	handler: ScrumVoteHandler,
+) => {
+	bot.scrumVoteHandlers.push(handler);
 };
 
 export const sendScrumMessage = async (bot: DiscordBot) => {

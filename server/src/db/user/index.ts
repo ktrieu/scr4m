@@ -37,3 +37,16 @@ export const getUserById = async (
 
 	return user ?? null;
 };
+
+export const getUserByDiscordId = async (
+	db: DbInstance,
+	discordId: string,
+): Promise<Users | null> => {
+	const user = await db
+		.selectFrom("users")
+		.selectAll()
+		.where("discord_id", "=", discordId)
+		.executeTakeFirst();
+
+	return user ?? null;
+};

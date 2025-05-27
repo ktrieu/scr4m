@@ -7,6 +7,7 @@ import type {
 	NewScrumVotes,
 	ScrumVotes,
 } from "../../schemas/public/ScrumVotes.js";
+import type { DbInstance } from "../index.js";
 
 // For now, consider this to be our canonical timezone.
 const SCRUM_VOTE_TZ = "America/Toronto";
@@ -77,4 +78,17 @@ export const isScrumVoteOpen = async (
 		.executeTakeFirst();
 
 	return openScrum !== undefined;
+};
+
+export const getScrumVoteByMessageId = async (
+	db: DbInstance,
+	messageId: string,
+): Promise<ScrumVotes | null> => {
+	const scrumVote = await db
+		.selectFrom("scrum_votes")
+		.selectAll()
+		.where("message_id", "=", messageId)
+		.executeTakeFirst();
+
+	return scrumVote ?? null;
 };
