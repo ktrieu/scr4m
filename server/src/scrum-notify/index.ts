@@ -1,6 +1,9 @@
 import type { Kysely } from "kysely";
 import { DateTime } from "luxon";
-import { createScrumVoteResponse } from "../db/scrum-vote-response/index.js";
+import {
+	createScrumVoteResponse,
+	getLatestResponsesForVote,
+} from "../db/scrum-vote-response/index.js";
 import {
 	closeScrumVote,
 	createScrumVote,
@@ -11,6 +14,7 @@ import { getUserByDiscordId } from "../db/user/index.js";
 import {
 	type DiscordBot,
 	addScrumVoteHandler,
+	generateScrumMessage,
 	sendScrumMessage,
 } from "../discord/index.js";
 import type { CompaniesId } from "../schemas/public/Companies.js";
@@ -25,15 +29,15 @@ export const createScrumNotifier = (
 	db: Kysely<PublicSchema>,
 	bot: DiscordBot,
 ) => {
-	addScrumVoteHandler(bot, async (available, messageId, userId) => {
+	addScrumVoteHandler(bot, async (available, message, userId) => {
 		const user = await getUserByDiscordId(db, userId);
 		if (user === null) {
 			throw new Error(`No user found for Discord user id ${userId}`);
 		}
 
-		const scrumVote = await getScrumVoteByMessageId(db, messageId);
+		const scrumVote = await getScrumVoteByMessageId(db, message.id);
 		if (scrumVote === null) {
-			throw new Error(`No vote for Discord message id ${messageId}`);
+			throw new Error(`No vote for Discord message id ${message.id}`);
 		}
 
 		await createScrumVoteResponse(
@@ -43,6 +47,25 @@ export const createScrumNotifier = (
 			user.id,
 			DateTime.now(),
 		);
+
+		const resps = await getLatestResponsesForVote(db, scrumVote.id);
+
+		let numAvailable = 0;
+		let numNotAvailable = 0;
+
+		for (const [_, isAvailable] of Object.entries(resps)) {
+			if (isAvailable) {
+				numAvailable += 1;
+			} else {
+				numNotAvailable += 1;
+			}
+		}
+
+		const newMessage = generateScrumMessage(numAvailable, numNotAvailable);
+
+		message.edit({
+			components: newMessage.components,
+		});
 	});
 
 	return {
@@ -77,7 +100,7 @@ const NOTIFIER_TZ = "America/Toronto";
 
 // Half-open intervals for when a scrum should be opened or closed.
 // 24-hour in Eastern time.
-const SCRUM_OPEN_INTERVAL = [3, 16] as const;
+const SCRUM_OPEN_INTERVAL = [0, 16] as const;
 const SCRUM_CLOSE_INTERVAL = [16, 24] as const;
 
 const nowInInterval = (

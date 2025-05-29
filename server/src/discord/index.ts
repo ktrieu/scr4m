@@ -8,6 +8,8 @@ import {
 	Events,
 	GatewayIntentBits,
 	type Guild,
+	type Message,
+	type MessageCreateOptions,
 	MessageFlags,
 	SeparatorBuilder,
 	SeparatorSpacingSize,
@@ -25,7 +27,7 @@ const getButtonId = (id: string) => {
 
 type ScrumVoteHandler = (
 	available: boolean,
-	messageId: string,
+	message: Message,
 	userId: string,
 ) => Promise<void>;
 
@@ -54,12 +56,11 @@ const handleButtonInteraction = async (
 
 	await interaction.deferUpdate();
 
-	const messageId = interaction.message.id;
 	const userId = interaction.user.id;
 
 	for (const handler of bot.scrumVoteHandlers) {
 		try {
-			await handler(available, messageId, userId);
+			await handler(available, interaction.message, userId);
 		} catch (e) {
 			console.error(
 				`Error from scrum vote handler: ${e}. Continuing with next handler.`,
@@ -121,7 +122,10 @@ export const addScrumVoteHandler = (
 	bot.scrumVoteHandlers.push(handler);
 };
 
-export const sendScrumMessage = async (bot: DiscordBot) => {
+export const generateScrumMessage = (
+	numAvailable: number,
+	numNotAvailable: number,
+): MessageCreateOptions => {
 	let message =
 		"@everyone\n\nUGO-BOT SCRUMMONS: Vote if you are available for scrum!";
 
@@ -138,11 +142,13 @@ export const sendScrumMessage = async (bot: DiscordBot) => {
 	const yesButton = new ButtonBuilder()
 		.setCustomId(getButtonId(BUTTON_VOTE_YES))
 		.setEmoji("👍")
+		.setLabel(numAvailable.toString())
 		.setStyle(ButtonStyle.Success);
 
 	const noButton = new ButtonBuilder()
 		.setCustomId(getButtonId(BUTTON_VOTE_NO))
 		.setEmoji("👎")
+		.setLabel(numNotAvailable.toString())
 		.setStyle(ButtonStyle.Danger);
 
 	const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -150,8 +156,14 @@ export const sendScrumMessage = async (bot: DiscordBot) => {
 		noButton,
 	);
 
-	return bot.channel.send({
+	return {
 		components: [text, separator, actionRow],
 		flags: MessageFlags.IsComponentsV2,
-	});
+	};
+};
+
+export const sendScrumMessage = async (bot: DiscordBot) => {
+	const message = generateScrumMessage(0, 0);
+
+	return bot.channel.send(message);
 };
