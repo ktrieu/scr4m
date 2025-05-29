@@ -1,4 +1,4 @@
-import { sql, type Kysely } from "kysely";
+import { type Kysely, sql } from "kysely";
 import type { DateTime } from "luxon";
 import type PublicSchema from "../../schemas/public/PublicSchema.js";
 import type { ScrumVoteResponses } from "../../schemas/public/ScrumVoteResponses.js";
