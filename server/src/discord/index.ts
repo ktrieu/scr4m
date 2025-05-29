@@ -8,6 +8,7 @@ import {
 	Events,
 	GatewayIntentBits,
 	type Guild,
+	type MessageCreateOptions,
 	MessageFlags,
 	SeparatorBuilder,
 	SeparatorSpacingSize,
@@ -121,7 +122,10 @@ export const addScrumVoteHandler = (
 	bot.scrumVoteHandlers.push(handler);
 };
 
-export const sendScrumMessage = async (bot: DiscordBot) => {
+const generateScrumMessage = (
+	numAvailable: number,
+	numNotAvailable: number,
+): MessageCreateOptions => {
 	let message =
 		"@everyone\n\nUGO-BOT SCRUMMONS: Vote if you are available for scrum!";
 
@@ -138,11 +142,13 @@ export const sendScrumMessage = async (bot: DiscordBot) => {
 	const yesButton = new ButtonBuilder()
 		.setCustomId(getButtonId(BUTTON_VOTE_YES))
 		.setEmoji("👍")
+		.setLabel(numAvailable.toString())
 		.setStyle(ButtonStyle.Success);
 
 	const noButton = new ButtonBuilder()
 		.setCustomId(getButtonId(BUTTON_VOTE_NO))
 		.setEmoji("👎")
+		.setLabel(numNotAvailable.toString())
 		.setStyle(ButtonStyle.Danger);
 
 	const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -150,8 +156,14 @@ export const sendScrumMessage = async (bot: DiscordBot) => {
 		noButton,
 	);
 
-	return bot.channel.send({
+	return {
 		components: [text, separator, actionRow],
 		flags: MessageFlags.IsComponentsV2,
-	});
+	};
+};
+
+export const sendScrumMessage = async (bot: DiscordBot) => {
+	const message = generateScrumMessage(0, 0);
+
+	return bot.channel.send(message);
 };

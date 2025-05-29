@@ -77,7 +77,7 @@ const NOTIFIER_TZ = "America/Toronto";
 
 // Half-open intervals for when a scrum should be opened or closed.
 // 24-hour in Eastern time.
-const SCRUM_OPEN_INTERVAL = [3, 16] as const;
+const SCRUM_OPEN_INTERVAL = [0, 16] as const;
 const SCRUM_CLOSE_INTERVAL = [16, 24] as const;
 
 const nowInInterval = (
