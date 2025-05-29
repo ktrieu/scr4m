@@ -8,6 +8,7 @@ import {
 	Events,
 	GatewayIntentBits,
 	type Guild,
+	type Message,
 	type MessageCreateOptions,
 	MessageFlags,
 	SeparatorBuilder,
@@ -26,7 +27,7 @@ const getButtonId = (id: string) => {
 
 type ScrumVoteHandler = (
 	available: boolean,
-	messageId: string,
+	message: Message,
 	userId: string,
 ) => Promise<void>;
 
@@ -55,12 +56,11 @@ const handleButtonInteraction = async (
 
 	await interaction.deferUpdate();
 
-	const messageId = interaction.message.id;
 	const userId = interaction.user.id;
 
 	for (const handler of bot.scrumVoteHandlers) {
 		try {
-			await handler(available, messageId, userId);
+			await handler(available, interaction.message, userId);
 		} catch (e) {
 			console.error(
 				`Error from scrum vote handler: ${e}. Continuing with next handler.`,
@@ -122,7 +122,7 @@ export const addScrumVoteHandler = (
 	bot.scrumVoteHandlers.push(handler);
 };
 
-const generateScrumMessage = (
+export const generateScrumMessage = (
 	numAvailable: number,
 	numNotAvailable: number,
 ): MessageCreateOptions => {
